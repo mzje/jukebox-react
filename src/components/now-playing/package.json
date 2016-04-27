@@ -1,0 +1,4 @@
+{
+  "name": "NowPlaying",
+  "main": "./now-playing.js"
+}
