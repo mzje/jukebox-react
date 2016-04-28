@@ -15,8 +15,8 @@ class Jukebox extends React.Component {
   openConnection(self) {
     if (this.state.conn.readyState === undefined || this.state.conn.readyState > 1) {
       console.log("Connecting to the web socket server...")
-      var uri = "ws://localhost:8081";
-      //var uri = "ws://jukebox.local:8081";
+      //var uri = "ws://localhost:8081";
+      var uri = "ws://jukebox.local:8081";
       this.state.conn = new WebSocket(uri);
 
       this.state.conn.onopen = () => {
@@ -51,7 +51,7 @@ class Jukebox extends React.Component {
           self.setState({
             rating: data["rating"]
           })
-          self.updateRating();
+          //self.updateRating();
         }
 
         if ("volume" in data) {
