@@ -7,7 +7,8 @@ class NowPlaying extends React.Component {
       let artistName = this.props.track['artist'];
       return (
         <div>
-          <p>{ artistName } '{ trackTitle }'</p>
+          <h1>{ artistName }</h1>
+          <p>'{ trackTitle }'</p>
         </div>
       );
     } else {
