@@ -7,6 +7,13 @@ var Actions = {
       actionType: Constants.UPDATE_TRACK,
       track: track
     });
+  },
+
+  updateUserID: (userID) => {
+    AppDispatcher.dispatch({
+      actionType: Constants.UPDATE_USER_ID,
+      userID: userID
+    });
   }
 };
 

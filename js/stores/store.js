@@ -12,6 +12,10 @@ function updateTrack(track) {
   _data['track'] = track;
 }
 
+function updateUserID(userID) {
+  _data['user_id'] = userID;
+}
+
 var Store = assign({}, EventEmitter.prototype, {
 
   currentState: () => {
@@ -20,6 +24,10 @@ var Store = assign({}, EventEmitter.prototype, {
 
   track: () => {
     return _data['track'];
+  },
+
+  userID: () => {
+    return _data['user_id'];
   },
 
   emitChange: function() {
@@ -51,12 +59,9 @@ AppDispatcher.register(function(action) {
       Store.emitChange();
       break;
 
-    case Constants.TODO_CREATE:
-      text = action.text.trim();
-      if (text !== '') {
-        create(text);
-        Store.emitChange();
-      }
+    case Constants.UPDATE_USER_ID:
+      updateUserID(action.userID)
+      Store.emitChange();
       break;
 
     default:

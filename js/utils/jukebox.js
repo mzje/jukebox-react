@@ -67,24 +67,25 @@ class Jukebox {
     return self.conn;
   }
 
-  buildMPDMessage(command, value){
+  buildMPDMessage(command, value, userID){
     var payload = {};
     payload[command] = (value || '');
-    console.log(payload);
+    if(userID) {
+      payload['user_id'] = parseInt(userID)
+    }
     return payload;
   }
 
   sendMPDMessage(payload){
-    console.log('sendMPDMessage');
-    // AsyncStorage.getItem('@User:current_user_id').then((value) => {
-    //   payload['user_id'] = parseInt(value);
-    //   this.state.conn.send(JSON.stringify(payload));
-    // }).done()
+    self.conn.send(JSON.stringify(payload));
+    this.openConnection(); // TODO figure out why the server sometimes disconnects the client!
   }
 
-  vote(track, state) {
+  vote(userID, track, state) {
     var payload = this.buildMPDMessage(
-      'vote', { 'state': state, 'filename': track.file }
+      'vote',
+      { 'state': state, 'filename': track.file },
+      userID
     );
     this.sendMPDMessage(payload);
   }
