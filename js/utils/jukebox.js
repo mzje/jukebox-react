@@ -5,12 +5,15 @@ class Jukebox {
     this.conn = {};
   }
 
+  websocketServerURI() {
+    return('ws://localhost:8081');
+    //return('ws://jukebox.local:8081');
+  }
+
   openConnection() {
     if (self.conn === undefined || self.conn.readyState === undefined || self.conn.readyState > 1) {
       console.log("Connecting to the web socket server...")
-      //var uri = "ws://localhost:8081";
-      var uri = "ws://jukebox.local:8081";
-      self.conn = new WebSocket(uri);
+      self.conn = new WebSocket(this.websocketServerURI());
 
       self.conn.onopen = () => {
         console.log("Socket opened!");
@@ -67,7 +70,7 @@ class Jukebox {
     return self.conn;
   }
 
-  buildMPDMessage(command, value, userID){
+  buildMessage(command, value, userID){
     var payload = {};
     payload[command] = (value || '');
     if(userID) {
@@ -76,42 +79,42 @@ class Jukebox {
     return payload;
   }
 
-  sendMPDMessage(payload){
+  sendMessage(payload){
     self.conn.send(JSON.stringify(payload));
     this.openConnection(); // TODO figure out why the server sometimes disconnects the client!
   }
 
   vote(userID, track, state) {
-    var payload = this.buildMPDMessage(
+    var payload = this.buildMessage(
       'vote',
       { 'state': state, 'filename': track.file },
       userID
     );
-    this.sendMPDMessage(payload);
+    this.sendMessage(payload);
   }
 
   // setVolume(self, value) {
-  //   var payload = this.buildMPDMessage(self, 'setvol', value);
-  //   this.sendMPDMessage(payload);
+  //   var payload = this.buildMessage(self, 'setvol', value);
+  //   this.sendMessage(payload);
   // }
 
   // playNext(self) {
-  //   var payload = this.buildMPDMessage(self, 'next');
-  //   this.sendMPDMessage(payload);
+  //   var payload = this.buildMessage(self, 'next');
+  //   this.sendMessage(payload);
   // }
 
   // playPrevious(self) {
-  //   var payload = this.buildMPDMessage(self, 'previous');
-  //   this.sendMPDMessage(payload);
+  //   var payload = this.buildMessage(self, 'previous');
+  //   this.sendMessage(payload);
   // }
 
   // playPause(self) {
   //   if(self.state.playing){
-  //     var payload = this.buildMPDMessage(self, 'pause');
+  //     var payload = this.buildMessage(self, 'pause');
   //   } else {
-  //     var payload = this.buildMPDMessage(self, 'play');
+  //     var payload = this.buildMessage(self, 'play');
   //   }
-  //   this.sendMPDMessage(payload);
+  //   this.sendMessage(payload);
   // }
 }
 
