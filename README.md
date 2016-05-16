@@ -26,6 +26,10 @@ Then in another terminal window:
 
     $ python -m SimpleHTTPServer
 
+### Run the specs
+
+    $ npm test
+
 ### Browserify
 
 [http://browserify.org](http://browserify.org)
