@@ -1,4 +1,4 @@
-var AppDispatcher = require('../dispatcher/AppDispatcher');
+var Dispatcher = require('../dispatcher/dispatcher');
 var EventEmitter = require('events').EventEmitter;
 var Constants = require('../constants/constants');
 var assign = require('object-assign');
@@ -50,7 +50,7 @@ var Store = assign({}, EventEmitter.prototype, {
 });
 
 // Register callback to handle all updates
-AppDispatcher.register(function(action) {
+Dispatcher.register(function(action) {
   var text;
 
   switch(action.actionType) {

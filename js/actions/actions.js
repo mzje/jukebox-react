@@ -1,16 +1,16 @@
-var AppDispatcher = require('../dispatcher/AppDispatcher');
+var Dispatcher = require('../dispatcher/dispatcher');
 var Constants = require('../constants/constants');
 
 var Actions = {
   updateTrack: (track) => {
-    AppDispatcher.dispatch({
+    Dispatcher.dispatch({
       actionType: Constants.UPDATE_TRACK,
       track: track
     });
   },
 
   updateUserID: (userID) => {
-    AppDispatcher.dispatch({
+    Dispatcher.dispatch({
       actionType: Constants.UPDATE_USER_ID,
       userID: userID
     });
