@@ -118,4 +118,4 @@ class Jukebox {
   // }
 }
 
-export default Jukebox;
+module.exports = Jukebox;
