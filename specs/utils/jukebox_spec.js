@@ -1,4 +1,4 @@
-import Jukebox from './../js/utils/jukebox/jukebox';
+import Jukebox from './../../js/utils/jukebox';
 
 describe('Jukebox', () => {
   let instance;

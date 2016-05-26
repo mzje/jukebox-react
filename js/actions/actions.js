@@ -1,5 +1,5 @@
-var Dispatcher = require('../dispatcher/dispatcher');
-var Constants = require('../constants/constants');
+import Dispatcher from '../dispatcher/dispatcher';
+import Constants from '../constants/constants';
 
 var Actions = {
   updateTrack: (track) => {

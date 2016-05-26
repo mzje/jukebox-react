@@ -40,7 +40,9 @@ Browserify lets you require(‘modules’) in the browser by bundling up all of 
 
 [https://github.com/babel/babelify](https://github.com/babel/babelify)
 
-Combines the [Babel](https://github.com/babel/babel) js compiler to worth with `Browserify`
+[Babel](https://github.com/babel/babel) Allows new ES6 syntax to be used.
+
+Combines the [Babel](https://github.com/babel/babel) js compiler to work with `Browserify`
 
 ### Watchify
 
@@ -52,4 +54,22 @@ Auto re-compiles any changes you make to the js files automatically for you.
 
 [https://facebook.github.io/flux/](https://facebook.github.io/flux/)
 
-An application architecture for React utilizing a unidirectional data flow.
+"An application architecture for React utilizing a unidirectional data flow."
+
+Essentially it allows us to easily share state between isolated components.
+
+### Karma
+
+[https://karma-runner.github.io](https://karma-runner.github.io)
+
+Karma is a test runner we use for running the specs.
+
+It is configured to run the specs in a headless PhantomJS browser.
+
+It also handles Browserify, Babelify and auto-reloading the specs.
+
+### Jasmine
+
+[http://jasmine.github.io/](http://jasmine.github.io/)
+
+Jasmine is the testing framework we use for writing the specs.

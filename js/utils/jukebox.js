@@ -6,8 +6,8 @@ class Jukebox {
   }
 
   websocketServerURI() {
-    return('ws://localhost:8081');
-    //return('ws://jukebox.local:8081');
+    //return('ws://localhost:8081');
+    return('ws://jukebox.local:8081');
   }
 
   openConnection() {
@@ -118,4 +118,4 @@ class Jukebox {
   // }
 }
 
-export default Jukebox;
+module.exports = Jukebox;
