@@ -1,8 +1,8 @@
 import Actions from '../actions/actions';
 
 class Jukebox {
-  constructor() {
-    this.conn = {};
+  constructor(conn) {
+    this.conn = conn || {};
   }
 
   websocketServerURI() {
@@ -27,47 +27,49 @@ class Jukebox {
         console.log("Socket closed: " + e.code + ' reason:' + e.reason);
       };
 
-      self.conn.onmessage = (msg) => {
-        var data = JSON.parse(msg.data);
-
-        if ("state" in data) {
-          // self.setState({
-          //   playing: (data["state"] == 'play')
-          // })
-        }
-
-        if ("track" in data) {
-          Actions.updateTrack(data['track']);
-        }
-
-        if ("rating" in data) {
-          // self.setState({
-          //   rating: data["rating"]
-          // })
-          //self.updateRating();
-        }
-
-        if ("volume" in data) {
-          // self.setState({
-          //   volume: data["volume"]
-          // })
-        }
-
-        if ("playlist" in data) {
-          // self.setState({
-          //   playlist: data["playlist"]
-          // })
-        }
-
-        if ("time" in data) {
-          // self.setState({
-          //   time: data["time"]
-          // })
-        }
-
-      }
+      self.conn.onmessage = this.handleMessage;
     }
     return self.conn;
+  }
+
+  handleMessage(message) {
+    var data = JSON.parse(message.data);
+
+    if ("state" in data) {
+      // self.setState({
+      //   playing: (data["state"] == 'play')
+      // })
+    }
+
+    if ("track" in data) {
+      Actions.updateTrack(data['track']);
+    }
+
+    if ("rating" in data) {
+      // self.setState({
+      //   rating: data["rating"]
+      // })
+      //self.updateRating();
+    }
+
+    if ("volume" in data) {
+      // self.setState({
+      //   volume: data["volume"]
+      // })
+    }
+
+    if ("playlist" in data) {
+      // self.setState({
+      //   playlist: data["playlist"]
+      // })
+    }
+
+    if ("time" in data) {
+      // self.setState({
+      //   time: data["time"]
+      // })
+    }
+
   }
 
   buildMessage(command, value, userID){
@@ -80,7 +82,7 @@ class Jukebox {
   }
 
   sendMessage(payload){
-    self.conn.send(JSON.stringify(payload));
+    this.conn.send(JSON.stringify(payload));
     this.openConnection(); // TODO figure out why the server sometimes disconnects the client!
   }
 
