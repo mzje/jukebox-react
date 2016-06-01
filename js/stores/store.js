@@ -6,7 +6,10 @@ import Jukebox from '../utils/jukebox';
 
 var CHANGE_EVENT = 'change';
 
-var _data = {};
+var _data = {
+  track: null,
+  user_id: null
+};
 
 function updateTrack(track) {
   _data['track'] = track;
@@ -19,15 +22,7 @@ function updateUserID(userID) {
 var Store = assign({}, EventEmitter.prototype, {
 
   currentState: () => {
-    _data;
-  },
-
-  track: () => {
-    return _data['track'];
-  },
-
-  userID: () => {
-    return _data['user_id'];
+    return _data;
   },
 
   emitChange: function() {

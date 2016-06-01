@@ -11,25 +11,26 @@ class Jukebox {
   }
 
   openConnection() {
-    if (self.conn === undefined || self.conn.readyState === undefined || self.conn.readyState > 1) {
+    if (this.conn === undefined || this.conn.readyState === undefined || this.conn.readyState > 1) {
       console.log("Connecting to the web socket server...")
-      self.conn = new WebSocket(this.websocketServerURI());
+      this.conn = new WebSocket(this.websocketServerURI());
+      console.log(this.conn);
 
-      self.conn.onopen = () => {
+      this.conn.onopen = () => {
         console.log("Socket opened!");
       };
 
-      self.conn.onerror = (e) => {
+      this.conn.onerror = (e) => {
         console.log("Socket error: " + e.message);
       };
 
-      self.conn.onclose = (e) => {
+      this.conn.onclose = (e) => {
         console.log("Socket closed: " + e.code + ' reason:' + e.reason);
       };
 
-      self.conn.onmessage = this.handleMessage;
+      this.conn.onmessage = this.handleMessage;
     }
-    return self.conn;
+    return this.conn;
   }
 
   handleMessage(message) {

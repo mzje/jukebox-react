@@ -2,8 +2,7 @@ import React from 'react';
 import Store from '../stores/store';
 import Actions from '../actions/actions';
 import Jukebox from './../utils/jukebox';
-import NowPlaying from './now-playing';
-import Vote from './vote';
+import SidePanel from './subviews/side-panel';
 
 class UI extends React.Component {
   constructor(props) {
@@ -38,6 +37,12 @@ class UI extends React.Component {
     Store.removeChangeListener(this._onChange.bind(this));
   }
 
+  sidePanelHTML(track, userId) {
+    return(
+      <SidePanel track={track} userId={userId} />
+    )
+  }
+
   /**
    * Event handler for 'change' events coming from the Store
    */
@@ -48,13 +53,14 @@ class UI extends React.Component {
   }
 
   render() {
+    let track = this.state.store.track;
+    let userId = this.state.store.user_id;
     return (
       <div>
         <label>
           User ID: <input type='text' onChange={this.updateUserID.bind(this)} />
         </label>
-        <NowPlaying track={Store.track()} />
-        <Vote track={Store.track()} userID={Store.userID()} />
+        { this.sidePanelHTML(track, userId) }
       </div>
     );
   }
