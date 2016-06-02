@@ -1,6 +1,4 @@
-var keyMirror = require('keymirror');
-
-module.exports = keyMirror({
-  UPDATE_TRACK: null,
-  UPDATE_USER_ID: null
-});
+export default {
+  UPDATE_TRACK: 'updateTrack',
+  UPDATE_USER_ID: 'updateUserId'
+}

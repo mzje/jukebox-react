@@ -1,67 +1,63 @@
-var Dispatcher = require('../dispatcher/dispatcher');
-var EventEmitter = require('events').EventEmitter;
-var Constants = require('../constants/constants');
-var assign = require('object-assign');
-import Jukebox from '../utils/jukebox';
+import Dispatcher from '../dispatcher/dispatcher';
+import { EventEmitter } from 'events'
+import Constants from '../constants/constants';
+import Immutable from 'immutable';
 
 var CHANGE_EVENT = 'change';
 
-var _data = {
+var defaultData = Immutable.fromJS({
   track: null,
   user_id: null
-};
+});
 
-function updateTrack(track) {
-  _data['track'] = track;
-}
+class Store extends EventEmitter {
 
-function updateUserID(userID) {
-  _data['user_id'] = userID;
-}
+  constructor(Dispatcher, defaultData) {
+    super(Dispatcher, defaultData)
+    this.dispatchToken = Dispatcher.register(this.dispatcherCallback.bind(this));
+    this.data = defaultData;
+  }
 
-var Store = assign({}, EventEmitter.prototype, {
+  [Constants.UPDATE_TRACK](action) {
+    this.data = this.data.set('track', action.track)
+  }
 
-  currentState: () => {
-    return _data;
-  },
+  [Constants.UPDATE_USER_ID](action) {
+    this.data = this.data.set('user_id', action.userID)
+  }
 
-  emitChange: function() {
+  dispatcherCallback(action) {
+    if(this[action.actionType]) {
+      this[action.actionType].call(this, action);
+      this.emitChange();
+    }
+  }
+
+  currentState() {
+    return this.data;
+  }
+
+  emitChange() {
     this.emit(CHANGE_EVENT);
-  },
+  }
 
   /**
    * @param {function} callback
    */
-  addChangeListener: function(callback) {
+  addChangeListener(callback) {
     this.on(CHANGE_EVENT, callback);
-  },
+  }
 
   /**
    * @param {function} callback
    */
-  removeChangeListener: function(callback) {
+  removeChangeListener(callback) {
     this.removeListener(CHANGE_EVENT, callback);
   }
-});
 
-// Register callback to handle all updates
-Dispatcher.register(function(action) {
-  var text;
-
-  switch(action.actionType) {
-    case Constants.UPDATE_TRACK:
-      updateTrack(action.track);
-      Store.emitChange();
-      break;
-
-    case Constants.UPDATE_USER_ID:
-      updateUserID(action.userID)
-      Store.emitChange();
-      break;
-
-    default:
-      // no op
+  reset() {
+    this.data = defaultData;
   }
-});
+};
 
-module.exports = Store;
+export default new Store(Dispatcher, defaultData)
