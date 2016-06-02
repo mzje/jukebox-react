@@ -3,13 +3,17 @@ import Store from '../stores/store';
 import Actions from '../actions/actions';
 import Jukebox from './../utils/jukebox';
 import SidePanel from './subviews/side-panel';
+import Dispatcher from './../dispatcher/dispatcher';
+import Immutable from 'immutable'
 
 class UI extends React.Component {
   constructor(props) {
     super(props);
+    let store = Store
     this.state = {
       jukebox: new Jukebox(),
-      store: {}
+      store: store,
+      storeData: store.currentState()
     };
   }
 
@@ -24,17 +28,16 @@ class UI extends React.Component {
   }
 
   updateUserID = (onChangeEvent) => {
-    console.log(onChangeEvent.target.value);
     Actions.updateUserID(onChangeEvent.target.value);
   }
 
   componentDidMount() {
-    Store.addChangeListener(this._onChange.bind(this));
+    this.state.store.addChangeListener(this._onChange.bind(this));
     this.state.jukebox.openConnection();
   }
 
   componentWillUnmount() {
-    Store.removeChangeListener(this._onChange.bind(this));
+    this.state.store.removeChangeListener(this._onChange.bind(this));
   }
 
   sidePanelHTML(track, userId) {
@@ -48,13 +51,13 @@ class UI extends React.Component {
    */
   _onChange() {
     this.setState({
-      store: Store.currentState()
+      storeData: this.state.store.currentState()
     });
   }
 
   render() {
-    let track = this.state.store.track;
-    let userId = this.state.store.user_id;
+    let track = this.state.storeData.get('track');
+    let userId = this.state.storeData.get('user_id');
     return (
       <div>
         <label>
