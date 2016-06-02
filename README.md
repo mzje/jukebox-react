@@ -73,3 +73,12 @@ It also handles Browserify, Babelify and auto-reloading the specs.
 [http://jasmine.github.io/](http://jasmine.github.io/)
 
 Jasmine is the testing framework we use for writing the specs.
+
+### Immutable
+
+[https://facebook.github.io/immutable-js/](https://facebook.github.io/immutable-js/)
+
+Immutable js allows the data in the store to be immutable.
+
+This provides an optimisation for React, as it can detect exactly the data that
+has changed and thus only re-renders the components effected.
