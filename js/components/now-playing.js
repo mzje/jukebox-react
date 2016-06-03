@@ -1,23 +1,37 @@
 import React from 'react';
 
 class NowPlaying extends React.Component {
-  render() {
-    if (this.props.track) {
-      let trackTitle = this.props.track['title'];
-      let artistName = this.props.track['artist'];
-      return (
-        <div>
-          <h1>{ artistName }</h1>
-          <p>'{ trackTitle }'</p>
-        </div>
-      );
+
+  contentHTML(track) {
+    if (track) {
+      return this.trackInfoHTML(
+        track['title'],
+        track['artist']
+      )
     } else {
-      return (
-        <div>
-          <p>Nothing is playing</p>
-        </div>
-      );
+      return this.loadingHTML()
     }
+  }
+
+  trackInfoHTML(artistName, trackTitle) {
+    return (
+      <div>
+        <h1>{ artistName }</h1>
+        <p>'{ trackTitle }'</p>
+      </div>
+    );
+  }
+
+  loadingHTML() {
+    return (
+      <div>
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  render() {
+    return this.contentHTML(this.props.track)
   }
 }
 
