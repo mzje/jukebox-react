@@ -41,7 +41,8 @@
   "scripts": {
     "start": "watchify -t babelify -v -d js/app.js -o js/bundle.js",
     "build": "browserify . -t [envify --NODE_ENV production] -t [babelify] | uglifyjs -cm > js/bundle.min.js",
-    "test": "./node_modules/karma/bin/karma start --auto-watch --no-single-run karma.config.js"
+    "test": "./node_modules/karma/bin/karma start --auto-watch --no-single-run karma.config.js",
+    "test_once": "./node_modules/karma/bin/karma start --no-auto-watch karma.config.js --single-run"
   },
   "babel": {
     "plugins": [
