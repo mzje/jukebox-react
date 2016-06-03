@@ -1,5 +1,7 @@
 # Jukebox front-end in React
 
+[![Codeship Status for kyan/jukebox-react](https://codeship.com/projects/48b19f90-0ae9-0134-60dd-223fae911045/status?branch=master)](https://codeship.com/projects/155708)
+
 ## Get started
 
 ### Install Node
@@ -12,11 +14,13 @@ Otherwise install it from: [nodejs.org](https://nodejs.org)
 
 ### Install Node dependencies
 
-`React` is installed via NPM and (along with other dependencies) are located in `/node_modules`.
-
 Install these via:
 
     $ npm install
+
+All dependencies are located in `/node_modules` which is ignored from the repo.
+
+You can view/change the dependencies required by looking in `package.json`
 
 ### Start the app
 
@@ -30,11 +34,25 @@ Then in another terminal window:
 
     $ npm test
 
+### Code coverage
+
+Note that __100% coverage__ is required to get a passing build which will be run automatically by [Codeship](https://codeship.com).
+
+The coverage will be output in the terminal. You can view more detail (such as the exact code not covered) by opening `index.html` inside the `coverage` directory.
+
+### Istanbul
+
+[https://github.com/gotwarlost/istanbul](https://github.com/gotwarlost/istanbul)
+
+Code coverage is checked via Istanbul.
+
+The `Babel` package `babel-plugin-__coverage__` prevents code we have not written from showing up in the Istanbul coverage report.
+
 ### Browserify
 
 [http://browserify.org](http://browserify.org)
 
-Browserify lets you require(‘modules’) in the browser by bundling up all of your dependencies.
+Browserify allows us to break out code up into modules and have them all bundled together to work in the browser.
 
 ### Babelify
 
@@ -64,7 +82,7 @@ Essentially it allows us to easily share state between isolated components.
 
 Karma is a test runner we use for running the specs.
 
-It is configured to run the specs in a headless PhantomJS browser.
+It is configured to run the specs in a headless [PhantomJS](http://phantomjs.org/) browser.
 
 It also handles Browserify, Babelify and auto-reloading the specs.
 
