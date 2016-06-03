@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.8.0",
+    "babel-core": "^6.9.1",
     "babel-plugin-__coverage__": "^1.11.111",
     "babel-preset-es2015": "^6.9.0",
     "browserify": "^13.0.1",
@@ -47,7 +48,12 @@
   "babel": {
     "plugins": [
       "transform-class-properties",
-      ["__coverage__", { "only": "js/" }]
+      [
+        "__coverage__",
+        {
+          "only": "js/"
+        }
+      ]
     ],
     "presets": [
       "es2015",
