@@ -3,6 +3,7 @@ import Store from '../stores/store';
 import Actions from '../actions/actions';
 import Jukebox from './../utils/jukebox';
 import SidePanel from './subviews/side-panel';
+import DebugPanel from './subviews/debug-panel';
 import Dispatcher from './../dispatcher/dispatcher';
 import Immutable from 'immutable'
 
@@ -27,7 +28,7 @@ class UI extends React.Component {
     }
   }
 
-  updateUserID = (onChangeEvent) => {
+  updateUserID(onChangeEvent) {
     Actions.updateUserID(onChangeEvent.target.value);
   }
 
@@ -58,10 +59,12 @@ class UI extends React.Component {
   render() {
     let track = this.state.storeData.get('track');
     let userId = this.state.storeData.get('user_id');
+    let connection = this.state.storeData.get('connection');
     return (
       <div>
+        <DebugPanel connection={ connection } />
         <label>
-          User ID: <input type='text' onChange={this.updateUserID.bind(this)} />
+          User ID: <input type='text' onChange={ this.updateUserID.bind(this) } />
         </label>
         { this.sidePanelHTML(track, userId) }
       </div>

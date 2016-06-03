@@ -19,7 +19,12 @@ describe('Store', () => {
       expect(instance.currentState()).toEqual(
         Immutable.fromJS({
           track: null,
-          user_id: null
+          user_id: null,
+          connection: {
+            open: false,
+            error_message: null,
+            closed_message: null
+          }
         })
       );
     });
@@ -75,7 +80,39 @@ describe('Store', () => {
     });
   });
 
-  describe('updateTrack', () => {
+  describe('CONNECTION_OPEN', () => {
+    it('sets connection open to true', () => {
+      instance[Constants.CONNECTION_OPEN]()
+      expect(
+        instance.currentState().getIn(['connection', 'open'])
+      ).toBeTruthy();
+    })
+  });
+
+  describe('CONNECTION_ERROR', () => {
+    it('sets connection error_message', () => {
+      let action = {message: 'some error'}
+      instance[Constants.CONNECTION_ERROR](action)
+      expect(
+        instance.currentState().getIn(['connection', 'error_message'])
+      ).toEqual('some error');
+    })
+  });
+
+  describe('CONNECTION_CLOSED', () => {
+    it('sets connection open to false amd closed_message', () => {
+      let action = {message: 'some message'}
+      instance[Constants.CONNECTION_CLOSED](action)
+      expect(
+        instance.currentState().getIn(['connection', 'closed_message'])
+      ).toEqual('some message');
+      expect(
+        instance.currentState().getIn(['connection', 'open'])
+      ).toBeFalsy();
+    })
+  });
+
+  describe('UPDATE_TRACK', () => {
     it('updates the track data', () => {
       action = {track: 'foo'}
       instance[Constants.UPDATE_TRACK](action)
@@ -83,7 +120,7 @@ describe('Store', () => {
     });
   });
 
-  describe('updateUserId', () => {
+  describe('UPDATE_USER_ID', () => {
     it('updates the user id', () => {
       action = {userID: '1'}
       instance[Constants.UPDATE_USER_ID](action)
@@ -98,7 +135,12 @@ describe('Store', () => {
       expect(instance.currentState()).toEqual(
         Immutable.fromJS({
           track: null,
-          user_id: null
+          user_id: null,
+          connection: {
+            open: false,
+            error_message: null,
+            closed_message: null
+          }
         })
       );
     });
