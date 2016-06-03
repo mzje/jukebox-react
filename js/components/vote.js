@@ -11,11 +11,15 @@ class Vote extends React.Component {
     this.context.jukebox.vote(this.props.userId, this.props.track, 1);
   }
 
+  voteHTML() {
+    return (
+      <a href='#' onClick={ this.voteUp.bind(this) }>Upvote</a>
+    );
+  }
+
   render() {
     if (this.props.track && this.props.userId) {
-      return (
-        <a href='#' onClick={this.voteUp.bind(this)}>Upvote</a>
-      );
+      return this.voteHTML()
     } else {
       return null;
     };

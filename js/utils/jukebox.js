@@ -11,65 +11,69 @@ class Jukebox {
   }
 
   openConnection() {
-    if (this.conn === undefined || this.conn.readyState === undefined || this.conn.readyState > 1) {
-      console.log("Connecting to the web socket server...")
+    if (!this.connectionReady()) {
       this.conn = new WebSocket(this.websocketServerURI());
-      console.log(this.conn);
-
-      this.conn.onopen = () => {
-        console.log("Socket opened!");
-      };
-
-      this.conn.onerror = (e) => {
-        console.log("Socket error: " + e.message);
-      };
-
-      this.conn.onclose = (e) => {
-        console.log("Socket closed: " + e.code + ' reason:' + e.reason);
-      };
-
+      this.conn.onopen = this.handleOpen;
+      this.conn.onerror = this.handleError;
+      this.conn.onclose = this.handleClose;
       this.conn.onmessage = this.handleMessage;
     }
     return this.conn;
   }
 
+  connectionReady() {
+    return !(this.conn === undefined || this.conn.readyState === undefined || this.conn.readyState > 1);
+  }
+
+  handleOpen(message) {
+    Actions.connectionOpen();
+  }
+
+  handleError(message) {
+    Actions.connectionError(message);
+  }
+
+  handleClose(message) {
+    Actions.connectionClosed(message);
+  }
+
   handleMessage(message) {
     var data = JSON.parse(message.data);
 
-    if ("state" in data) {
-      // self.setState({
-      //   playing: (data["state"] == 'play')
-      // })
-    }
+    // if ("state" in data) {
+    //   // self.setState({
+    //   //   playing: (data["state"] == 'play')
+    //   // })
+    // }
 
     if ("track" in data) {
       Actions.updateTrack(data['track']);
     }
 
-    if ("rating" in data) {
-      // self.setState({
-      //   rating: data["rating"]
-      // })
-      //self.updateRating();
-    }
+    // if ("rating" in data) {
+    //   // self.setState({
+    //   //   rating: data["rating"]
+    //   // })
+    //   //self.updateRating();
+    // }
 
-    if ("volume" in data) {
-      // self.setState({
-      //   volume: data["volume"]
-      // })
-    }
+    // if ("volume" in data) {
+    //   // self.setState({
+    //   //   volume: data["volume"]
+    //   // })
+    // }
 
-    if ("playlist" in data) {
-      // self.setState({
-      //   playlist: data["playlist"]
-      // })
-    }
+    // if ("playlist" in data) {
+    //   // self.setState({
+    //   //   playlist: data["playlist"]
+    //   // })
+    // }
 
-    if ("time" in data) {
-      // self.setState({
-      //   time: data["time"]
-      // })
-    }
+    // if ("time" in data) {
+    //   // self.setState({
+    //   //   time: data["time"]
+    //   // })
+    // }
 
   }
 

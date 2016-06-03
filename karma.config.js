@@ -36,10 +36,25 @@ module.exports = function(config) {
       ]
     },
 
+    coverageReporter: {
+      reporters: [
+        {'type': 'text'},
+        {'type': 'html', dir: 'coverage'}
+      ],
+      check: {
+        global: {
+          statements: 100,
+          branches: 100,
+          functions: 100,
+          lines: 100
+        }
+      }
+    },
+
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
+    reporters: ['progress', 'coverage'],
 
     // web server port
     port: 9876,

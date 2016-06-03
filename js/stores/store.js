@@ -7,7 +7,12 @@ var CHANGE_EVENT = 'change';
 
 var defaultData = Immutable.fromJS({
   track: null,
-  user_id: null
+  user_id: null,
+  connection: {
+    open: false,
+    error_message: null,
+    closed_message: null
+  }
 });
 
 class Store extends EventEmitter {
@@ -16,6 +21,19 @@ class Store extends EventEmitter {
     super(Dispatcher, defaultData)
     this.dispatchToken = Dispatcher.register(this.dispatcherCallback.bind(this));
     this.data = defaultData;
+  }
+
+  [Constants.CONNECTION_OPEN]() {
+    this.data = this.data.setIn(['connection', 'open'], true)
+  }
+
+  [Constants.CONNECTION_ERROR](action) {
+    this.data = this.data.setIn(['connection', 'error_message'], action.message)
+  }
+
+  [Constants.CONNECTION_CLOSED](action) {
+    this.data = this.data.setIn(['connection', 'open'], false)
+    this.data = this.data.setIn(['connection', 'closed_message'], action.message)
   }
 
   [Constants.UPDATE_TRACK](action) {
