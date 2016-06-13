@@ -3,8 +3,8 @@ import NowPlaying from './../../components/now-playing';
 import Vote from './../../components/vote';
 
 class SidePanel extends React.Component {
-  nowPlayingHTML(track) {
-    return <NowPlaying track={track} />
+  nowPlayingHTML(track, time) {
+    return <NowPlaying track={track} time={time} />
   }
 
   voteHTML(track, userId) {
@@ -12,9 +12,11 @@ class SidePanel extends React.Component {
   }
 
   render() {
+    console.log('side panel')
+    console.log(this.props.time)
     return (
       <div className='ui-side-panel'>
-        { this.nowPlayingHTML(this.props.track) }
+        { this.nowPlayingHTML(this.props.track, this.props.time) }
         { this.voteHTML(this.props.track, this.props.userId) }
       </div>
     );
