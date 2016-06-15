@@ -1,16 +1,12 @@
 import React from 'react';
+import TrackTime from './track-time';
 
 class NowPlaying extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      time: this.props.time
-    };
-  }
-
   contentHTML(track, time) {
+    console.log(track)
     if (track) {
       return this.trackInfoHTML(
+        track['filename'],
         track['title'],
         track['artist'],
         track['artwork_url'],
@@ -23,23 +19,14 @@ class NowPlaying extends React.Component {
     }
   }
 
-  componentDidMount() {
-    let timeUpdater = setInterval(() => {
-      if(this.props.time) {
-        this.setState({time: parseInt(this.state.time || this.props.time, 10) + 1})
-      }
-    }, 1000);
-  }
-
-  trackInfoHTML(artistName, trackTitle, artworkUrl, addedBy, duration, time) {
+  trackInfoHTML(filename, artistName, trackTitle, artworkUrl, addedBy, duration, time) {
     return (
       <div>
         <h1>{ artistName }</h1>
         <p>'{ trackTitle }'</p>
         <img src={ artworkUrl } width='100px' height='100px' />
         <p>Chosen by { addedBy }</p>
-        <p>Duration { duration }</p>
-        <p>Time: {time}</p>
+        <TrackTime filename={filename} duration={duration} time={time} />
       </div>
     );
   }
@@ -53,7 +40,7 @@ class NowPlaying extends React.Component {
   }
 
   render() {
-    return this.contentHTML(this.props.track, this.state.time)
+    return this.contentHTML(this.props.track, this.props.time)
   }
 }
 
