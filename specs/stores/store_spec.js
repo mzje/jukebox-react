@@ -20,6 +20,7 @@ describe('Store', () => {
         Immutable.fromJS({
           track: null,
           user_id: null,
+          time: null,
           connection: {
             open: false,
             error_message: null,
@@ -136,6 +137,7 @@ describe('Store', () => {
         Immutable.fromJS({
           track: null,
           user_id: null,
+          time: null,
           connection: {
             open: false,
             error_message: null,

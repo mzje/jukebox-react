@@ -21,13 +21,14 @@ describe('SidePanel', () => {
 
   describe('render', () => {
     beforeEach(() => {
-      instance = new SidePanel({track:'the track', userId: '1'})
+      instance = new SidePanel({track:'the track', userId: '1', time: 123
+    })
       spyOn(instance, 'nowPlayingHTML');
       spyOn(instance, 'voteHTML');
     });
     it('calls nowPlayingHTML', () => {
       instance.render();
-      expect(instance.nowPlayingHTML).toHaveBeenCalledWith('the track');
+      expect(instance.nowPlayingHTML).toHaveBeenCalledWith('the track', 123);
     });
     it('calls voteHTML', () => {
       instance.render();
