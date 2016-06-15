@@ -40,6 +40,11 @@ class TrackTime extends React.Component {
       if (nextProps.time < 2) {
         this.state.time = nextProps.time;
       }
+
+      // Keep in sync when we get an UPDATE_TIME event
+      if (this.props.time !== nextProps.time) {
+        this.state.time = nextProps.time;
+      }
   }
 
   render() {
