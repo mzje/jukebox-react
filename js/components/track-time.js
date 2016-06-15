@@ -26,18 +26,7 @@ class TrackTime extends React.Component {
   }
 
   componentDidMount() {
-    //this.timeUpdater();
     this.interval = setInterval(this.tick.bind(this), 1000)
-    // this.interval = setInterval(() => {
-    //   if(this.props.time) {
-    //     this.setState({time: parseInt(this.state.time || this.props.time, 10) + 1})
-    //   }
-    // }, 1000);
-    // var timeUpdater = setInterval(() => {
-    //   if(this.props.time) {
-    //     this.setState({time: parseInt(this.state.time || this.props.time, 10) + 1})
-    //   }
-    // }, 1000);
   }
 
   tick() {
@@ -46,25 +35,11 @@ class TrackTime extends React.Component {
     }
   }
 
-  // timeUpdater = setInterval(() => {
-  //   if(this.props.time) {
-  //     this.setState({time: parseInt(this.state.time || this.props.time, 10) + 1})
-  //   }
-  // }, 1000);
-
-  componentWillUpdate(nextProps) {
-    if (nextProps.filename !== this.props.filename) {
-      console.log('componentWillUpdate')
-      console.log(this.props.filename);
-      console.log(nextProps.filename);
-      clearInterval(this.interval);
-      this.interval = setInterval(this.tick.bind(this), 1000)
-      // var timeUpdater = setInterval(() => {
-      //   if(this.props.time) {
-      //     this.setState({time: parseInt(this.state.time || this.props.time, 10) + 1})
-      //   }
-      // }, 1000);
-    }
+  componentWillReceiveProps(nextProps) {
+      // If a new track is about to start, the time is reset to 0
+      if (nextProps.time < 2) {
+        this.state.time = nextProps.time;
+      }
   }
 
   render() {

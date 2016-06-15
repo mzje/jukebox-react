@@ -46,7 +46,6 @@ class Store extends EventEmitter {
   }
 
   [Constants.UPDATE_TIME](action) {
-    console.log(action.time)
     this.data = this.data.set('time', action.time)
   }
 
