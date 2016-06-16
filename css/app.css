@@ -1,3 +1,14 @@
 body {
   font-family: 'Helvetica Neue',Arial,Helvetica,sans-serif;
 }
+
+.progressBarContainer {
+	width: 220px;
+	height: 10px;
+	background: #DDD;
+}
+
+.progressBarContent {
+	height: 10px;
+	background: #999;
+}

@@ -20,6 +20,7 @@ describe('Store', () => {
         Immutable.fromJS({
           track: null,
           user_id: null,
+          time: null,
           connection: {
             open: false,
             error_message: null,
@@ -128,6 +129,14 @@ describe('Store', () => {
     });
   });
 
+  describe('UPDATE_TIME', () => {
+    it('updates the time', () => {
+      action = {time: '1'}
+      instance[Constants.UPDATE_TIME](action)
+      expect(instance.currentState().get('time')).toEqual('1');
+    });
+  });
+
   describe('reset', () => {
     it('resets the data', () => {
       instance[Constants.UPDATE_TRACK]({track: 'foo'})
@@ -136,6 +145,7 @@ describe('Store', () => {
         Immutable.fromJS({
           track: null,
           user_id: null,
+          time: null,
           connection: {
             open: false,
             error_message: null,

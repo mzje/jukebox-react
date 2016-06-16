@@ -89,11 +89,12 @@ describe('Ui', () => {
       instance = new Ui()
       instance.state.storeData = instance.state.storeData.set('track', 'the track')
       instance.state.storeData = instance.state.storeData.set('user_id', '1')
+      instance.state.storeData = instance.state.storeData.set('time', 123)
       spyOn(instance, 'sidePanelHTML');
     });
     it('calls sidePanelHTML', () => {
       instance.render();
-      expect(instance.sidePanelHTML).toHaveBeenCalledWith('the track', '1');
+      expect(instance.sidePanelHTML).toHaveBeenCalledWith('the track', '1', 123);
     });
   });
 });

@@ -69,11 +69,9 @@ class Jukebox {
     //   // })
     // }
 
-    // if ("time" in data) {
-    //   // self.setState({
-    //   //   time: data["time"]
-    //   // })
-    // }
+    if ("time" in data) {
+      Actions.updateTime(data['time']);
+    }
 
   }
 

@@ -34,6 +34,13 @@ var Actions = {
       actionType: Constants.UPDATE_USER_ID,
       userID: userID
     });
+  },
+
+  updateTime: (time) => {
+    Dispatcher.dispatch({
+      actionType: Constants.UPDATE_TIME,
+      time: time
+    });
   }
 };
 
