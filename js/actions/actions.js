@@ -34,6 +34,20 @@ var Actions = {
       actionType: Constants.UPDATE_USER_ID,
       userID: userID
     });
+  },
+
+  updateVolume: (volume) => {
+    Dispatcher.dispatch({
+      actionType: Constants.UPDATE_VOLUME,
+      volume: volume
+    });
+  }
+
+  updatePlayState: (playState) => {
+    Dispatcher.dispatch({
+      actionType: Constants.UPDATE_PLAYSTATE,
+      playState: playState
+    });
   }
 };
 

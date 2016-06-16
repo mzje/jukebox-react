@@ -40,11 +40,9 @@ class Jukebox {
   handleMessage(message) {
     var data = JSON.parse(message.data);
 
-    // if ("state" in data) {
-    //   // self.setState({
-    //   //   playing: (data["state"] == 'play')
-    //   // })
-    // }
+    if ("state" in data) {
+      Actions.updatePlayState(data['state'])
+    }
 
     if ("track" in data) {
       Actions.updateTrack(data['track']);
@@ -57,11 +55,9 @@ class Jukebox {
     //   //self.updateRating();
     // }
 
-    // if ("volume" in data) {
-    //   // self.setState({
-    //   //   volume: data["volume"]
-    //   // })
-    // }
+    if ("volume" in data) {
+      Actions.updateVolume(data['volume']);
+    }
 
     // if ("playlist" in data) {
     //   // self.setState({
