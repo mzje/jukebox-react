@@ -21,7 +21,6 @@ describe('Store', () => {
           track: null,
           user_id: null,
           time: null,
-          rating: null,
           connection: {
             open: false,
             error_message: null,
@@ -147,7 +146,6 @@ describe('Store', () => {
           track: null,
           user_id: null,
           time: null,
-          rating: null,
           connection: {
             open: false,
             error_message: null,

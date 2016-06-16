@@ -57,11 +57,6 @@ class UI extends React.Component {
 
   render() {
     const track = this.state.storeData.get('track');
-    const rating = this.state.storeData.get('rating');
-    if (rating && rating.rating) {
-      track.rating = rating.rating;
-      track.rating_class = rating.rating_class;
-    }
     const userId = this.state.storeData.get('user_id');
     const time = this.state.storeData.get('time');
     const connection = this.state.storeData.get('connection');

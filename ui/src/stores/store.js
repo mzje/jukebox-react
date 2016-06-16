@@ -9,7 +9,6 @@ const defaultData = Immutable.fromJS({
   track: null,
   user_id: null,
   time: null,
-  rating: null,
   connection: {
     open: false,
     error_message: null,
@@ -40,6 +39,7 @@ class Store extends EventEmitter {
 
   [Constants.UPDATE_TRACK](action) {
     this.data = this.data.set('track', action.track);
+    console.log(action.track);
   }
 
   [Constants.UPDATE_USER_ID](action) {
@@ -51,7 +51,9 @@ class Store extends EventEmitter {
   }
 
   [Constants.UPDATE_RATING](action) {
-    this.data = this.data.set('rating', action.rating);
+    this.data = this.data.setIn(['track', 'rating'], action.rating.rating);
+    this.data = this.data.setIn(['track', 'rating_class'], action.rating.rating_class);
+    console.log(action.rating);
   }
 
   dispatcherCallback(action) {
