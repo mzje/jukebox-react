@@ -12,8 +12,6 @@ class SidePanel extends React.Component {
   }
 
   render() {
-    console.log('side panel')
-    console.log(this.props.time)
     return (
       <div className='ui-side-panel'>
         { this.nowPlayingHTML(this.props.track, this.props.time) }
