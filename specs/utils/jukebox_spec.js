@@ -132,8 +132,10 @@ describe('Jukebox', () => {
     let data, message
     beforeEach(() => {
       instance = new Jukebox();
-      spyOn(Actions, 'updateTrack')
+      spyOn(Actions, 'updateTrack');
+      spyOn(Actions, 'updateTime');
     });
+
     describe('when track data is present', () => {
       it('calls the updateTrack action', () => {
         data = '{"track": "foo"}'
@@ -142,6 +144,16 @@ describe('Jukebox', () => {
         expect(Actions.updateTrack).toHaveBeenCalledWith('foo');
       });
     });
+
+    describe('when time data is present', () => {
+      it('calls the updateTime action', () => {
+        data = '{"time": "1"}'
+        message = {data: data}
+        instance.handleMessage(message);
+        expect(Actions.updateTime).toHaveBeenCalledWith('1');
+      });
+    });
+
     describe('when no data is present', () => {
       beforeEach(() => {
         message = {data: '{}'}
@@ -149,6 +161,9 @@ describe('Jukebox', () => {
       });
       it('does not call updateTrack', () => {
         expect(Actions.updateTrack).not.toHaveBeenCalled();
+      });
+      it('does not call updateTime', () => {
+        expect(Actions.updateTime).not.toHaveBeenCalled();
       });
     })
   });

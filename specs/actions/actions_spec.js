@@ -69,4 +69,17 @@ describe('Actions', () => {
       );
     });
   });
+
+  describe('updateTime', () => {
+    it('dispatches UPDATE_TIME with the track', () => {
+      let time = '1';
+      Actions.updateTime(time)
+      expect(Dispatcher.dispatch).toHaveBeenCalledWith(
+        {
+          actionType: Constants.UPDATE_TIME,
+          time: time
+        }
+      );
+    });
+  });
 })

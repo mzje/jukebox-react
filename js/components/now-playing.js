@@ -3,7 +3,6 @@ import TrackTime from './track-time';
 
 class NowPlaying extends React.Component {
   contentHTML(track, time) {
-    console.log(track)
     if (track) {
       return this.trackInfoHTML(
         track['filename'],
@@ -26,7 +25,7 @@ class NowPlaying extends React.Component {
         <p>'{ trackTitle }'</p>
         <img src={ artworkUrl } width='100px' height='100px' />
         <p>Chosen by { addedBy }</p>
-        <TrackTime filename={filename} duration={duration} time={time} />
+        <TrackTime duration={duration} time={time} />
       </div>
     );
   }

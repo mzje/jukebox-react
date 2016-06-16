@@ -129,6 +129,14 @@ describe('Store', () => {
     });
   });
 
+  describe('UPDATE_TIME', () => {
+    it('updates the time', () => {
+      action = {time: '1'}
+      instance[Constants.UPDATE_TIME](action)
+      expect(instance.currentState().get('time')).toEqual('1');
+    });
+  });
+
   describe('reset', () => {
     it('resets the data', () => {
       instance[Constants.UPDATE_TRACK]({track: 'foo'})
