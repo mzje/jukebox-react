@@ -1,7 +1,7 @@
 {
+  "parser": "babel-eslint",
   "extends": "airbnb",
   "rules": {
-    "jsx-quotes", [2, "never"],
     "comma-dangle": [2, "never"],
     "object-shorthand": [2, "never"]
   }
