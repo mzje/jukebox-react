@@ -1,11 +1,10 @@
 import React from 'react';
-import Store from '../stores/store';
-import Actions from '../actions/actions';
-import Jukebox from './../utils/jukebox';
-import SidePanel from './subviews/side-panel';
-import DebugPanel from './subviews/debug-panel';
-import Dispatcher from './../dispatcher/dispatcher';
+import Dispatcher from './../../dispatcher/dispatcher';
 import Immutable from 'immutable'
+import Store from './../../stores/store';
+import Jukebox from './../../utils/jukebox';
+import SidePanel from './side-panel';
+import Header from './header';
 
 class UI extends React.Component {
   constructor(props) {
@@ -28,10 +27,6 @@ class UI extends React.Component {
     }
   }
 
-  updateUserID(onChangeEvent) {
-    Actions.updateUserID(onChangeEvent.target.value);
-  }
-
   componentDidMount() {
     this.state.store.addChangeListener(this._onChange.bind(this));
     this.state.jukebox.openConnection();
@@ -45,6 +40,10 @@ class UI extends React.Component {
     return(
       <SidePanel track={track} userId={userId} time={time} />
     )
+  }
+
+  headerHTML(connection) {
+    return <Header connection={connection} />
   }
 
   /**
@@ -63,11 +62,9 @@ class UI extends React.Component {
     let connection = this.state.storeData.get('connection');
     return (
       <div>
-        <DebugPanel connection={ connection } />
-        <label>
-          User ID: <input type='text' onChange={ this.updateUserID.bind(this) } />
-        </label>
+        { this.headerHTML(connection) }
         { this.sidePanelHTML(track, userId, time) }
+        { this.props.children }
       </div>
     );
   }

@@ -1,7 +1,7 @@
 import React from 'react';
 import TestUtils from 'react/lib/ReactTestUtils';
 import Vote from './../../js/components/vote';
-import Ui from './../../js/views/ui';
+import Ui from './../../js/views/ui/ui';
 
 describe('Vote', () => {
   let instance;

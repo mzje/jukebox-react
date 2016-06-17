@@ -1,6 +1,6 @@
 import React from 'react';
 import TestUtils from 'react/lib/ReactTestUtils';
-import SidePanel from './../../../js/views/subviews/side-panel';
+import SidePanel from './../../../js/views/ui/side-panel';
 
 describe('SidePanel', () => {
   let instance;
@@ -21,8 +21,7 @@ describe('SidePanel', () => {
 
   describe('render', () => {
     beforeEach(() => {
-      instance = new SidePanel({track:'the track', userId: '1', time: 123
-    })
+      instance = new SidePanel({track:'the track', userId: '1', time: 123})
       spyOn(instance, 'nowPlayingHTML');
       spyOn(instance, 'voteHTML');
     });
