@@ -6,21 +6,21 @@ class ProgressBar extends React.Component {
     duration: React.PropTypes.string.isRequired
   }
 
-  percentage_played() {
-    return Math.floor(this.props.time / this.duration_to_seconds() * 100)
+  percentagePlayed() {
+    return Math.floor(this.props.time / this.durationToSeconds() * 100);
   }
 
-  duration_to_seconds() {
-    let parts = this.props.duration.split(':')
-    let mins = parseInt(parts[0])
-    let seconds = parseInt(parts[1])
-    return (mins * 60) + seconds
+  durationToSeconds() {
+    const parts = this.props.duration.split(':');
+    const mins = parseInt(parts[0], 10);
+    const seconds = parseInt(parts[1], 10);
+    return (mins * 60) + seconds;
   }
 
   render() {
-    return(
-      <div className='progressBarContainer'>
-        <div className='progressBarContent' style={{ 'width': this.percentage_played() + '%' }}></div>
+    return (
+      <div className="progressBarContainer">
+        <div className="progressBarContent" style={{ width: `${this.percentagePlayed()}%` }} />
       </div>
     );
   }
