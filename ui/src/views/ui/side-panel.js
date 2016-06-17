@@ -13,12 +13,18 @@ class SidePanel extends React.Component {
 
   render() {
     return (
-      <div className='ui-side-panel'>
-        { this.nowPlayingHTML(this.props.track, this.props.time) }
-        { this.voteHTML(this.props.track, this.props.userId) }
+      <div className="ui-side-panel">
+        {this.nowPlayingHTML(this.props.track, this.props.time)}
+        {this.voteHTML(this.props.track, this.props.userId)}
       </div>
     );
   }
 }
+
+SidePanel.propTypes = {
+  track: React.PropTypes.object,
+  time: React.PropTypes.number,
+  userId: React.PropTypes.number
+};
 
 export default SidePanel;
