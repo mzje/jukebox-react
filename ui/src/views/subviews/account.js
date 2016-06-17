@@ -2,7 +2,7 @@ import React from 'react';
 
 class Account extends React.Component {
   accountHTML() {
-    return(
+    return (
       <p>Account goes here...</p>
     );
   }
@@ -17,4 +17,3 @@ class Account extends React.Component {
 }
 
 export default Account;
-Account
