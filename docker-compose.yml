@@ -6,8 +6,8 @@ services:
       context: ./ui
       dockerfile: Dockerfile.ui
     volumes:
-       - ./ui:/app/ui/
-       - /app/ui/node_modules/
+       - ./ui:/app/ui
+       - /app/ui/node_modules
     ports:
       - "8081:8081"
     command: npm start
