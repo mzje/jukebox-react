@@ -3,6 +3,12 @@ import NowPlaying from './../../components/now-playing';
 import Vote from './../../components/vote';
 
 class SidePanel extends React.Component {
+  static propTypes = {
+    track: React.PropTypes.object,
+    time: React.PropTypes.number,
+    userId: React.PropTypes.number
+  };
+
   nowPlayingHTML(track, time) {
     return <NowPlaying track={track} time={time} />;
   }
@@ -20,11 +26,5 @@ class SidePanel extends React.Component {
     );
   }
 }
-
-SidePanel.propTypes = {
-  track: React.PropTypes.object,
-  time: React.PropTypes.number,
-  userId: React.PropTypes.number
-};
 
 export default SidePanel;

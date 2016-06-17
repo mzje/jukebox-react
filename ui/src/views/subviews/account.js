@@ -9,8 +9,8 @@ class Account extends React.Component {
 
   render() {
     return (
-      <div className='ui-account'>
-        { this.accountHTML() }
+      <div className="ui-account">
+        {this.accountHTML()}
       </div>
     );
   }

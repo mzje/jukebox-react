@@ -4,32 +4,36 @@ import DebugPanel from './debug-panel';
 import Navigation from './navigation';
 
 class Header extends React.Component {
+  static propTypes = {
+    connection: React.PropTypes.object
+  };
+
   debugPanelHTML(connection) {
-    return <DebugPanel connection={ connection } />
+    return <DebugPanel connection={connection} />;
   }
 
   navigationHTML() {
-    return <Navigation />
+    return <Navigation />;
   }
 
-  updateUserID(onChangeEvent) {
+  updateUserID = (onChangeEvent) => {
     Actions.updateUserID(onChangeEvent.target.value);
   }
 
   loginHTML() {
-    return(
+    return (
       <label>
-        User ID: <input type='text' onChange={ this.updateUserID.bind(this) } />
+        User ID: <input type="text" onChange={this.updateUserID} />
       </label>
     );
   }
 
   render() {
     return (
-      <div className='ui-header'>
-        { this.debugPanelHTML(this.props.connection) }
-        { this.loginHTML() }
-        { this.navigationHTML() }
+      <div className="ui-header">
+        {this.debugPanelHTML(this.props.connection)}
+        {this.loginHTML()}
+        {this.navigationHTML()}
       </div>
     );
   }
