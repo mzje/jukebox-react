@@ -1,7 +1,7 @@
 import React from 'react';
 import TestUtils from 'react/lib/ReactTestUtils';
-import Ui from './../../../src/views/ui/ui';
-import SidePanel from './../../../src/views/ui/side-panel';
+import Ui from './../../../src/views/common/ui';
+import SidePanel from './../../../src/views/common/side-panel';
 
 describe('Ui', () => {
   let instance;
@@ -21,13 +21,12 @@ describe('Ui', () => {
       instance = new Ui();
       store = jasmine.createSpyObj('store', ['addChangeListener']);
       jukebox = jasmine.createSpyObj('jukebox', ['openConnection']);
-      instance._onChange = { bind: function(value) {return 'foo'} };
       instance.state.store = store;
       instance.state.jukebox = jukebox;
       instance.componentDidMount();
     });
     it('adds a change listener', () => {
-      expect(store.addChangeListener).toHaveBeenCalledWith('foo');
+      expect(store.addChangeListener).toHaveBeenCalledWith(instance._onChange);
     });
     it('calls openConnection on jukebox', () => {
       expect(jukebox.openConnection).toHaveBeenCalled();
@@ -39,12 +38,11 @@ describe('Ui', () => {
     beforeEach(() => {
       instance = new Ui();
       store = jasmine.createSpyObj('store', ['removeChangeListener']);
-      instance._onChange = { bind: function(value) {return 'foo'} };
       instance.state.store = store;
       instance.componentWillUnmount();
     });
     it('calls removeChangeListener', () => {
-      expect(store.removeChangeListener).toHaveBeenCalledWith('foo');
+      expect(store.removeChangeListener).toHaveBeenCalledWith(instance._onChange);
     })
   })
 

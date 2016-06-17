@@ -1,9 +1,9 @@
 import React from 'react';
 import TestUtils from 'react/lib/ReactTestUtils';
 import Actions from './../../../src/actions/actions';
-import Header from './../../../src/views/ui/header';
-import Navigation from './../../../src/views/ui/navigation';
-import DebugPanel from './../../../src/views/ui/debug-panel';
+import Header from './../../../src/views/common/header';
+import Navigation from './../../../src/views/common/navigation';
+import DebugPanel from './../../../src/views/common/debug-panel';
 import Immutable from 'immutable'
 
 describe('Header', () => {

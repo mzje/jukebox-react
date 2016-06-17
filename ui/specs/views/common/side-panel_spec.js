@@ -1,6 +1,6 @@
 import React from 'react';
 import TestUtils from 'react/lib/ReactTestUtils';
-import SidePanel from './../../../src/views/ui/side-panel';
+import SidePanel from './../../../src/views/common/side-panel';
 
 describe('SidePanel', () => {
   let instance;

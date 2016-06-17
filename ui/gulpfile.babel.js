@@ -156,6 +156,7 @@ gulp.task('test_once', function(cb) {
 		singleRun: true
 	}, cb);
 });
+gulp.task('lint_and_test_once', ['lint', 'test']);
 
 gulp.task('test', function(cb) {
 	runKarma('karma.config.js', {

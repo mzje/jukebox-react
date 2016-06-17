@@ -5,6 +5,10 @@ import SidePanel from './side-panel';
 import Header from './header';
 
 class UI extends React.Component {
+  static propTypes = {
+    children: React.PropTypes.element.isRequired
+  }
+
   static childContextTypes = {
     jukebox: React.PropTypes.object
   }
@@ -19,11 +23,9 @@ class UI extends React.Component {
     };
   }
 
-  getChildContext = () => {
-    return {
-      jukebox: this.state.jukebox
-    }
-  }
+  getChildContext = () => ({
+    jukebox: this.state.jukebox
+  });
 
   componentDidMount() {
     this.state.store.addChangeListener(this._onChange);
