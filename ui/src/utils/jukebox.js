@@ -68,11 +68,9 @@ class Jukebox {
     //   // })
     // }
 
-    // if ("playlist" in data) {
-    //   // self.setState({
-    //   //   playlist: data["playlist"]
-    //   // })
-    // }
+    if ("playlist" in data) {
+      Actions.updatePlaylist(Immutable.fromJS(data['playlist']));
+    }
 
     if (time) {
       Actions.updateTime(time);
