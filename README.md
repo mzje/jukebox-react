@@ -13,7 +13,7 @@ This will:
 
 * Build an Image for the UI and run it. It also runs the linter.
 
-## Running the test suite
+### Running the test suite
 
 In another tab you can run the test suite.
 
