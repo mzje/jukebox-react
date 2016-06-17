@@ -6,8 +6,8 @@ class Jukebox {
   }
 
   websocketServerURI() {
-    //return('ws://localhost:8081');
-    return('ws://jukebox.local:8081');
+    // return ('ws://localhost:8081');
+    return ('ws://jukebox.local:8081');
   }
 
   openConnection() {
@@ -22,10 +22,14 @@ class Jukebox {
   }
 
   connectionReady() {
-    return !(this.conn === undefined || this.conn.readyState === undefined || this.conn.readyState > 1);
+    return !(
+      this.conn === undefined ||
+      this.conn.readyState === undefined ||
+      this.conn.readyState > 1
+    );
   }
 
-  handleOpen(message) {
+  handleOpen() {
     Actions.connectionOpen();
   }
 
@@ -38,7 +42,7 @@ class Jukebox {
   }
 
   handleMessage(message) {
-    var data = JSON.parse(message.data);
+    const data = JSON.parse(message.data);
 
     // if ("state" in data) {
     //   // self.setState({
@@ -46,8 +50,8 @@ class Jukebox {
     //   // })
     // }
 
-    if ("track" in data) {
-      Actions.updateTrack(data['track']);
+    if ('track' in data) {
+      Actions.updateTrack(data.track);
     }
 
     // if ("rating" in data) {
@@ -69,30 +73,29 @@ class Jukebox {
     //   // })
     // }
 
-    if ("time" in data) {
-      Actions.updateTime(data['time']);
+    if ('time' in data) {
+      Actions.updateTime(data.time);
     }
-
   }
 
-  buildMessage(command, value, userID){
-    var payload = {};
+  buildMessage(command, value, userID) {
+    const payload = {};
     payload[command] = (value || '');
-    if(userID) {
-      payload['user_id'] = parseInt(userID)
+    if (userID) {
+      payload.user_id = parseInt(userID, 10);
     }
     return payload;
   }
 
-  sendMessage(payload){
+  sendMessage(payload) {
     this.conn.send(JSON.stringify(payload));
     this.openConnection(); // TODO figure out why the server sometimes disconnects the client!
   }
 
   vote(userID, track, state) {
-    var payload = this.buildMessage(
+    const payload = this.buildMessage(
       'vote',
-      { 'state': state, 'filename': track.file },
+      { state: state, filename: track.file },
       userID
     );
     this.sendMessage(payload);
