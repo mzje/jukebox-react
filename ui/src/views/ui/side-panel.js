@@ -5,7 +5,7 @@ import Vote from './../../components/vote';
 class SidePanel extends React.Component {
   static propTypes = {
     track: React.PropTypes.object,
-    time: React.PropTypes.number,
+    time: React.PropTypes.string,
     userId: React.PropTypes.number
   };
 

@@ -3,7 +3,10 @@ import ProgressBar from './progress-bar';
 
 class TrackTime extends React.Component {
   static propTypes = {
-    time: React.PropTypes.string,
+    time: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.number
+    ]),
     duration: React.PropTypes.string
   }
 
@@ -23,7 +26,7 @@ class TrackTime extends React.Component {
   }
 
   contentHTML(duration, time) {
-    if (typeof(duration) === 'string' && typeof(time) === 'number') {
+    if (typeof(duration) === 'string' && (typeof(time) === 'number' || typeof(time) === 'string')) {
       return (
         <div>
           <ProgressBar duration={duration} time={time} />

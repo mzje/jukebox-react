@@ -2,7 +2,10 @@ import React from 'react';
 
 class ProgressBar extends React.Component {
   static propTypes = {
-    time: React.PropTypes.number.isRequired,
+    time: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.number
+    ]),
     duration: React.PropTypes.string.isRequired
   }
 
