@@ -1,8 +1,7 @@
 import React from 'react';
 import TestUtils from 'react/lib/ReactTestUtils';
-import Ui from './../../js/views/ui';
-import Actions from './../../js/actions/actions';
-import SidePanel from './../../js/views/subviews/side-panel';
+import Ui from './../../../js/views/ui/ui';
+import SidePanel from './../../../js/views/ui/side-panel';
 
 describe('Ui', () => {
   let instance;
@@ -74,19 +73,9 @@ describe('Ui', () => {
     });
   });
 
-  describe('updateUserID', () => {
-    it('calls Actions.updateUserID with the target value', () => {
-      instance = new Ui()
-      spyOn(Actions, 'updateUserID')
-      let onChangeEvent = { target: {value: '1'} }
-      instance.updateUserID(onChangeEvent);
-      expect(Actions.updateUserID).toHaveBeenCalledWith(onChangeEvent.target.value);
-    });
-  });
-
   describe('render', () => {
     beforeEach(() => {
-      instance = new Ui()
+      instance =  TestUtils.renderIntoDocument(<Ui />);
       instance.state.storeData = instance.state.storeData.set('track', 'the track')
       instance.state.storeData = instance.state.storeData.set('user_id', '1')
       instance.state.storeData = instance.state.storeData.set('time', 123)
