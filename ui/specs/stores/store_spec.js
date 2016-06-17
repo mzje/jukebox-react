@@ -1,6 +1,6 @@
-import Store from './../../js/stores/store';
-import Constants from './../../js/constants/constants'
-import Dispatcher from './../../js/dispatcher/dispatcher'
+import Store from './../../src/stores/store';
+import Constants from './../../src/constants/constants'
+import Dispatcher from './../../src/dispatcher/dispatcher'
 import Immutable from 'immutable'
 
 describe('Store', () => {

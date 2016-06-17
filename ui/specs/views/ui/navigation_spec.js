@@ -1,6 +1,6 @@
 import React from 'react';
 import TestUtils from 'react/lib/ReactTestUtils';
-import Navigation from './../../../js/views/ui/navigation';
+import Navigation from './../../../src/views/ui/navigation';
 import { Link } from 'react-router'
 
 describe('Navigation', () => {

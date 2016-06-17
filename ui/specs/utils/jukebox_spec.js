@@ -1,5 +1,5 @@
-import Jukebox from './../../js/utils/jukebox';
-import Actions from './../../js/actions/actions';
+import Jukebox from './../../src/utils/jukebox';
+import Actions from './../../src/actions/actions';
 
 describe('Jukebox', () => {
   let instance;

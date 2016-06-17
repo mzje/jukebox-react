@@ -1,7 +1,7 @@
 import React from 'react';
 import TestUtils from 'react/lib/ReactTestUtils';
-import ProgressBar from './../../js/components/progress-bar';
-import TrackTime from './../../js/components/track-time';
+import ProgressBar from './../../src/components/progress-bar';
+import TrackTime from './../../src/components/track-time';
 
 describe('ProgressBar', () => {
   let instance;

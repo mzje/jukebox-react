@@ -1,7 +1,7 @@
 import React from 'react';
 import TestUtils from 'react/lib/ReactTestUtils';
-import Ui from './../../../js/views/ui/ui';
-import SidePanel from './../../../js/views/ui/side-panel';
+import Ui from './../../../src/views/ui/ui';
+import SidePanel from './../../../src/views/ui/side-panel';
 
 describe('Ui', () => {
   let instance;

@@ -1,6 +1,6 @@
 import React from 'react';
 import TestUtils from 'react/lib/ReactTestUtils';
-import DebugPanel from './../../../js/views/ui/debug-panel';
+import DebugPanel from './../../../src/views/ui/debug-panel';
 import Immutable from 'immutable'
 
 describe('DebugPanel', () => {

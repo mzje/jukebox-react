@@ -14,5 +14,5 @@ render(
       </Route>
     </Router>
   ),
-  document.getElementById('app')
+  document.getElementById('content')
 );

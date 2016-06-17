@@ -1,7 +1,7 @@
 import Dispatcher from '../dispatcher/dispatcher';
 import Constants from '../constants/constants';
 
-var Actions = {
+const Actions = {
   connectionOpen: () => {
     Dispatcher.dispatch({
       actionType: Constants.CONNECTION_OPEN

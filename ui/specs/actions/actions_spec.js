@@ -1,6 +1,6 @@
-import Actions from './../../js/actions/actions';
-import Constants from './../../js/constants/constants'
-import Dispatcher from './../../js/dispatcher/dispatcher'
+import Actions from './../../src/actions/actions';
+import Constants from './../../src/constants/constants'
+import Dispatcher from './../../src/dispatcher/dispatcher'
 
 describe('Actions', () => {
   beforeEach(() => {

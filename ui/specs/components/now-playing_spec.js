@@ -1,7 +1,7 @@
 import React from 'react';
 import TestUtils from 'react/lib/ReactTestUtils';
-import NowPlaying from './../../js/components/now-playing';
-import TrackTime from './../../js/components/track-time';
+import NowPlaying from './../../src/components/now-playing';
+import TrackTime from './../../src/components/track-time';
 
 describe('NowPlaying', () => {
   let instance;
