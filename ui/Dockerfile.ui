@@ -1,0 +1,10 @@
+FROM node:latest
+ENV REFRESHED_AT 2016-06-16
+
+RUN mkdir -p /app/ui
+RUN npm install gulp -g && \
+    npm install --save-dev gulp
+
+WORKDIR /app/ui
+ADD package.json /app/ui/package.json
+RUN npm install

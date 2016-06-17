@@ -1,0 +1,13 @@
+version: '2'
+services:
+  web:
+    image: jukebox_react:v1
+    build:
+      context: ./ui
+      dockerfile: Dockerfile.ui
+    volumes:
+       - ./ui:/app/ui/
+       - /app/ui/node_modules/
+    ports:
+      - "8081:8081"
+    command: npm start
