@@ -4,11 +4,11 @@ import Vote from './../../components/vote';
 
 class SidePanel extends React.Component {
   nowPlayingHTML(track, time) {
-    return <NowPlaying track={track} time={time} />
+    return <NowPlaying track={track} time={time} />;
   }
 
   voteHTML(track, userId) {
-    return <Vote track={track} userId={userId} />
+    return <Vote track={track} userId={userId} />;
   }
 
   render() {

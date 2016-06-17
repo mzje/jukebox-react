@@ -30,7 +30,7 @@ function runKarma(configFilePath, options, cb) {
 	configFilePath = path.resolve(configFilePath);
 
 	var server = karma.Server;
-	var log=gutil.log, colors=gutil.colors;
+	var log = gutil.log, colors = gutil.colors;
 	var config = karmaParseConfig(configFilePath, {});
 
   Object.keys(options).forEach(function(key) {
@@ -49,7 +49,7 @@ const paths = {
   entry: 'src/index.js',
   srcCss: 'src/**/*.scss',
   srcImg: 'src/images/**',
-  srcLint: ['src/**/*.js'],
+	srcLint: ['src/**/*.js'],
   dist: 'dist',
   distJs: 'dist/js',
   distImg: 'dist/images',
@@ -142,7 +142,7 @@ gulp.task('images', () => {
 gulp.task('lint', () => {
   gulp.src(paths.srcLint)
   .pipe(eslint())
-  .pipe(eslint.format());
+	.pipe(eslint.formatEach());
 });
 
 gulp.task('watchTask', () => {
