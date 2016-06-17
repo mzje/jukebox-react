@@ -55,7 +55,7 @@ describe('TrackTime', () => {
   describe('seconds_to_time', () => {
     it('converts seconds to time', () => {
       instance = new TrackTime({time:1})
-      expect(instance.seconds_to_time(120)).toEqual('02:00')
+      expect(instance.secondsToTime(120)).toEqual('02:00')
     });
   });
 
