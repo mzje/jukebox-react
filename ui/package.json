@@ -10,7 +10,7 @@
     "watch": "gulp watch",
     "build": "gulp build",
     "test": "gulp test",
-    "test_once": "gulp test_once"
+    "codeship": "gulp lint_and_test_once"
   },
   "dependencies": {
     "history": "^3.0.0",
