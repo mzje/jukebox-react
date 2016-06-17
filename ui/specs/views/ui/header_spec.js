@@ -22,11 +22,7 @@ describe('Header', () => {
   describe('navigationHTML', () => {
     it('returns an instance of Navigation', () => {
       instance = new Header();
-      let navigationHTML = TestUtils.renderIntoDocument(
-        instance.navigationHTML()
-      );
-      let navigation = TestUtils.findRenderedComponentWithType(navigationHTML, Navigation)
-      expect(navigation).toBeDefined();
+      expect(instance.navigationHTML()).toEqual(<Navigation />);
     });
   });
 
