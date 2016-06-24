@@ -51,7 +51,7 @@ class Store extends EventEmitter {
   }
 
   [Constants.UPDATE_RATING](action) {
-    this.data = this.data.set('rating', action.rating)
+    this.data = this.data.set('rating', action.rating);
   }
 
   dispatcherCallback(action) {

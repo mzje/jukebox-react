@@ -5,4 +5,4 @@ export default {
   UPDATE_USER_ID: 'updateUserId',
   UPDATE_TIME: 'updateTime',
   UPDATE_RATING: 'updateRating'
-}
+};

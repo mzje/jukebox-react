@@ -54,8 +54,8 @@ class Jukebox {
       Actions.updateTrack(data.track);
     }
 
-    if ("rating" in data) {
-      Actions.updateRating(data['rating']);
+    if ('rating' in data) {
+      Actions.updateRating(data.rating);
     }
 
     // if ("volume" in data) {

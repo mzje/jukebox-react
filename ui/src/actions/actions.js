@@ -40,7 +40,7 @@ const Actions = {
     Dispatcher.dispatch({
       actionType: Constants.UPDATE_TIME,
       time: time
-      });
+    });
   },
 
   updateRating: (rating) => {

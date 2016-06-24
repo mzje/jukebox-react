@@ -55,19 +55,13 @@ class UI extends React.Component {
     });
   }
 
-  applyRatingChangesToTrack(track) {
-    let rating = this.state.storeData.get('rating');
-    if (rating) {
-      if (rating.rating) {
-        track.rating = rating.rating
-      }
-      track.rating_class = rating.rating_class
-    }
-  }
-
   render() {
     const track = this.state.storeData.get('track');
-    this.applyRatingChangesToTrack(track);
+    const rating = this.state.storeData.get('rating');
+    if (rating && rating.rating) {
+      track.rating = rating.rating;
+      track.rating_class = rating.rating_class;
+    }
     const userId = this.state.storeData.get('user_id');
     const time = this.state.storeData.get('time');
     const connection = this.state.storeData.get('connection');

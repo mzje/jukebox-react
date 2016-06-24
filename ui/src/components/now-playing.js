@@ -1,5 +1,6 @@
 import React from 'react';
 import TrackTime from './track-time';
+import TrackRating from './track-rating';
 
 class NowPlaying extends React.Component {
   static propTypes = {
@@ -25,14 +26,22 @@ class NowPlaying extends React.Component {
     return this.loadingHTML();
   }
 
-  trackInfoHTML(filename, artistName, trackTitle, artworkUrl, addedBy, duration, rating, rating_class, time) {
+  trackInfoHTML(filename,
+                artistName,
+                trackTitle,
+                artworkUrl,
+                addedBy,
+                duration,
+                rating,
+                ratingClass,
+                time) {
     return (
       <div>
         <h1>{artistName}</h1>
         <p>'{trackTitle}'</p>
+        <TrackRating rating={rating} ratingClass={ratingClass} />
         <img src={artworkUrl} width="100px" height="100px" alt={artistName} />
         <p>Chosen by {addedBy}</p>
-        <p className={rating_class}>{rating}</p>
         <TrackTime duration={duration} time={time} />
       </div>
     );

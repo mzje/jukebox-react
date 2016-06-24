@@ -25,11 +25,13 @@ describe('NowPlaying', () => {
                       filename: 'spotify:track:example',
                       artwork_url: 'https://artworkurl.com',
                       added_by: 'username',
-                      duration: '01:55'
+                      duration: '01:55',
+                      rating: '2',
+                      rating_class: 'rating_2'
                     }
         let time = 123
         instance.contentHTML(track, time);
-        expect(instance.trackInfoHTML).toHaveBeenCalledWith('spotify:track:example', 'foo', 'bar', 'https://artworkurl.com', 'username', '01:55', 123);
+        expect(instance.trackInfoHTML).toHaveBeenCalledWith('spotify:track:example', 'foo', 'bar', 'https://artworkurl.com', 'username', '01:55', '2', 'rating_2', 123);
         expect(instance.loadingHTML).not.toHaveBeenCalled();
       });
     });
@@ -49,7 +51,7 @@ describe('NowPlaying', () => {
     it('returns the artist name and track title', () => {
       html = TestUtils.renderIntoDocument(
         instance.trackInfoHTML(
-          'spotify:track:example', 'British Sea Power', 'Chasing Flags', 'https://artworkurl.com', 'username', '01:23', 45
+          'spotify:track:example', 'British Sea Power', 'Chasing Flags', 'https://artworkurl.com', 'username', '01:23', '2', 'rating_2', 45
         )
       )
       expect(html.textContent).toContain("British Sea Power'Chasing Flags'");
@@ -58,7 +60,7 @@ describe('NowPlaying', () => {
       html = TestUtils.renderIntoDocument(
         <Wrapper>
           {instance.trackInfoHTML(
-            'spotify:track:example', 'British Sea Power', 'Chasing Flags', 'https://artworkurl.com', 'username', '01:23', 45
+            'spotify:track:example', 'British Sea Power', 'Chasing Flags', 'https://artworkurl.com', 'username', '01:23', '2', 'rating_2', 45
           )}
         </Wrapper>
       )
@@ -70,10 +72,28 @@ describe('NowPlaying', () => {
     it('returns the track chosen by', () => {
       html = TestUtils.renderIntoDocument(
         instance.trackInfoHTML(
-          'spotify:track:example', 'British Sea Power', 'Chasing Flags', 'https://artworkurl.com', 'username', '01:23', 45
+          'spotify:track:example', 'British Sea Power', 'Chasing Flags', 'https://artworkurl.com', 'username', '01:23', '2', 'rating_2', 45
         )
       )
       expect(html.textContent).toContain('Chosen by username');
+    });
+    it('renders the track rating if there is a rating', () => {
+      html = TestUtils.renderIntoDocument(
+        instance.trackInfoHTML(
+          'spotify:track:example', 'British Sea Power', 'Chasing Flags', 'https://artworkurl.com', 'username', '01:23', '2', 'rating_2', 45
+        )
+      )
+      let ratingItem = html.querySelector('.rating_2')
+      expect(ratingItem.outerHTML).toEqual('<p class="rating_2">2</p>');
+    });
+    it('does not render the track rating if there is not a rating', () => {
+      html = TestUtils.renderIntoDocument(
+        instance.trackInfoHTML(
+          'spotify:track:example', 'British Sea Power', 'Chasing Flags', 'https://artworkurl.com', 'username', '01:23', null, null, 45
+        )
+      )
+      let ratingItem = html.querySelector('.rating_2')
+      expect(ratingItem).toEqual(null);
     });
   });
 
