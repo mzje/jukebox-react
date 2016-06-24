@@ -16,6 +16,8 @@ class NowPlaying extends React.Component {
         track.artwork_url,
         track.added_by,
         track.duration,
+        track.rating,
+        track.rating_class,
         time
       );
     }
@@ -23,13 +25,14 @@ class NowPlaying extends React.Component {
     return this.loadingHTML();
   }
 
-  trackInfoHTML(filename, artistName, trackTitle, artworkUrl, addedBy, duration, time) {
+  trackInfoHTML(filename, artistName, trackTitle, artworkUrl, addedBy, duration, rating, rating_class, time) {
     return (
       <div>
         <h1>{artistName}</h1>
         <p>'{trackTitle}'</p>
         <img src={artworkUrl} width="100px" height="100px" alt={artistName} />
         <p>Chosen by {addedBy}</p>
+        <p className={rating_class}>{rating}</p>
         <TrackTime duration={duration} time={time} />
       </div>
     );
