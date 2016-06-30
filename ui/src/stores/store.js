@@ -51,7 +51,7 @@ class Store extends EventEmitter {
   }
 
   [Constants.UPDATE_RATING](action) {
-    // setIn is giving an invalid key error...
+    // Cannot currently use setIn as track is a JSON object rather than an immutable map
     // this.data = this.data.setIn(['track', 'rating'], action.rating.rating);
     // this.data = this.data.setIn(['track', 'rating_class'], action.rating.rating_class);
     // this is working as a temporary fix
