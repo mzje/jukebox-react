@@ -38,8 +38,8 @@ class Store extends EventEmitter {
   }
 
   [Constants.UPDATE_TRACK](action) {
-    this.data = this.data.set('track', action.track);
     console.log(action.track);
+    this.data = this.data.set('track', action.track);
   }
 
   [Constants.UPDATE_USER_ID](action) {
@@ -51,9 +51,16 @@ class Store extends EventEmitter {
   }
 
   [Constants.UPDATE_RATING](action) {
-    this.data = this.data.setIn(['track', 'rating'], action.rating.rating);
-    this.data = this.data.setIn(['track', 'rating_class'], action.rating.rating_class);
-    console.log(action.rating);
+    // setIn is giving an invalid key error...
+    // this.data = this.data.setIn(['track', 'rating'], action.rating.rating);
+    // this.data = this.data.setIn(['track', 'rating_class'], action.rating.rating_class);
+    // this is working as a temporary fix
+    if (this.data.get('track')) {
+      const tempTrack = this.data.get('track');
+      tempTrack.rating = action.rating.rating;
+      tempTrack.rating_class = action.rating.rating_class;
+      this.data = this.data.set('track', tempTrack);
+    }
   }
 
   dispatcherCallback(action) {
