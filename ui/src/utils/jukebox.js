@@ -1,4 +1,5 @@
 import Actions from '../actions/actions';
+import Immutable from 'immutable';
 
 class Jukebox {
   constructor(conn) {
@@ -42,7 +43,10 @@ class Jukebox {
   }
 
   handleMessage(message) {
-    const data = JSON.parse(message.data);
+    const data = Immutable.fromJS(JSON.parse(message.data));
+    const track = data.get('track');
+    const rating = data.get('rating');
+    const time = data.get('time');
 
     // if ("state" in data) {
     //   // self.setState({
@@ -50,12 +54,12 @@ class Jukebox {
     //   // })
     // }
 
-    if ('track' in data) {
-      Actions.updateTrack(data.track);
+    if (track) {
+      Actions.updateTrack(track);
     }
 
-    if ('rating' in data) {
-      Actions.updateRating(data.rating);
+    if (rating) {
+      Actions.updateRating(rating);
     }
 
     // if ("volume" in data) {
@@ -70,8 +74,8 @@ class Jukebox {
     //   // })
     // }
 
-    if ('time' in data) {
-      Actions.updateTime(data.time);
+    if (time) {
+      Actions.updateTime(time);
     }
   }
 

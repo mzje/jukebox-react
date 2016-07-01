@@ -38,7 +38,6 @@ class Store extends EventEmitter {
   }
 
   [Constants.UPDATE_TRACK](action) {
-    console.log(action.track);
     this.data = this.data.set('track', action.track);
   }
 
@@ -51,16 +50,12 @@ class Store extends EventEmitter {
   }
 
   [Constants.UPDATE_RATING](action) {
-    // Cannot currently use setIn as track is a JSON object rather than an immutable map
-    // this.data = this.data.setIn(['track', 'rating'], action.rating.rating);
-    // this.data = this.data.setIn(['track', 'rating_class'], action.rating.rating_class);
-    // this is working as a temporary fix
-    if (this.data.get('track')) {
-      const tempTrack = this.data.get('track');
-      tempTrack.rating = action.rating.rating;
-      tempTrack.rating_class = action.rating.rating_class;
-      this.data = this.data.set('track', tempTrack);
-    }
+    this.data = this.data.setIn(
+      ['track', 'rating'], action.rating.get('rating')
+    );
+    this.data = this.data.setIn(
+      ['track', 'rating_class'], action.rating.get('rating_class')
+    );
   }
 
   dispatcherCallback(action) {

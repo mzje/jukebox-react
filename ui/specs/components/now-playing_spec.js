@@ -2,6 +2,7 @@ import React from 'react';
 import TestUtils from 'react/lib/ReactTestUtils';
 import NowPlaying from './../../src/components/now-playing';
 import TrackTime from './../../src/components/track-time';
+import Immutable from 'immutable';
 
 describe('NowPlaying', () => {
   let instance;
@@ -20,7 +21,7 @@ describe('NowPlaying', () => {
     })
     describe('when there is a track', () => {
       it('calls trackInfoHTML', () => {
-        let track = { title: 'foo',
+        let track = Immutable.fromJS({ title: 'foo',
                       artist: 'bar',
                       filename: 'spotify:track:example',
                       artwork_url: 'https://artworkurl.com',
@@ -28,7 +29,7 @@ describe('NowPlaying', () => {
                       duration: '01:55',
                       rating: '2',
                       rating_class: 'rating_2'
-                    }
+                    })
         let time = 123
         instance.contentHTML(track, time);
         expect(instance.trackInfoHTML).toHaveBeenCalledWith('spotify:track:example', 'foo', 'bar', 'https://artworkurl.com', 'username', '01:55', '2', 'rating_2', 123);

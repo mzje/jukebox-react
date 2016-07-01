@@ -11,14 +11,14 @@ class NowPlaying extends React.Component {
   contentHTML(track, time) {
     if (track) {
       return this.trackInfoHTML(
-        track.filename,
-        track.title,
-        track.artist,
-        track.artwork_url,
-        track.added_by,
-        track.duration,
-        track.rating,
-        track.rating_class,
+        track.get('filename'),
+        track.get('title'),
+        track.get('artist'),
+        track.get('artwork_url'),
+        track.get('added_by'),
+        track.get('duration'),
+        track.get('rating'),
+        track.get('rating_class'),
         time
       );
     }

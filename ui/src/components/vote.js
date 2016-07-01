@@ -2,7 +2,7 @@ import React from 'react';
 
 class Vote extends React.Component {
   static propTypes = {
-    userId: React.PropTypes.number,
+    userId: React.PropTypes.string,
     track: React.PropTypes.object
   }
 
