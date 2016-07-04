@@ -1,0 +1,12 @@
+<%= form_tag({}, :method => "get") do |f| %>
+  <%= select_tag :date_range, options_for_select([["All time", "all"], ["Last month", "last_month"], ["Most hated", "hated"]], :selected => params[:date_range]) %>
+  <%= submit_tag("Go") %>
+<% end %>
+
+<table>
+  <%= render 'base/table_header', playlist: nil %>
+
+  <tbody>
+    <%= render partial: "base/track", collection: @tracks, as: :track %>
+  </tbody>
+</table>

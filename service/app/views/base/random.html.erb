@@ -1,0 +1,7 @@
+<table>
+  <%= render 'table_header', playlist: nil %>
+
+  <tbody>
+    <%= render partial: "track", collection: @tracks, as: :track %>
+  </tbody>
+</table>

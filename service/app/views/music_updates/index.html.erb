@@ -1,0 +1,22 @@
+<h1>Music Updates</h1>
+
+<% if @directories %>
+
+  <table>
+    <tbody>
+      <% @directories.each do |directory| %>
+        <tr>
+          <td><%=h directory %></td>
+          <td><%= link_to "Update now", new_music_update_path(:path => directory) %></th>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+<% else %>
+
+  <p>No Directories found.</p>
+
+  <p>JUKEBOX_MUSIC_PATH is currently set as: <%= JUKEBOX_MUSIC_PATH %></p>
+
+<% end %>

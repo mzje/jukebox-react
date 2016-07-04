@@ -7,11 +7,22 @@
 If you have Docker installed, this is the fastest and prefered way to develop
 on the project. To get going you can just run (from the project root):
 
-`$ docker-compose up`
+    $ docker-compose build
+    $ docker-compose run --rm service rake db:migrate
+    $ docker-compose run --rm service rake db:seed
+    $ docker-compose up
 
 This will:
 
 * Build an Image for the UI and run it. It also runs the linter.
+* Run the rails app
+
+Visit `http://localhost:8080` to view the app.
+
+Note Docker for mac does not yet support sound and you can't play anything :(
+
+If you are running this in the Kyan office you can switch `websocketServerURI`
+to point to `jukebox.local:8081` to use the live jukebox.
 
 ### Running the test suite
 
@@ -19,37 +30,10 @@ In another tab you can run the test suite.
 
 `$ docker-compose run web gulp`
 
-## Get started manually
+### Mopidy
 
-### Install Node
-
-Check if you have node installed via:
-
-    $ node
-
-Otherwise install it from: [nodejs.org](https://nodejs.org)
-
-### Install Node dependencies
-
-Install these via:
-
-    $ npm install
-
-All dependencies are located in `/node_modules` which is ignored from the repo.
-
-You can view/change the dependencies required by looking in `package.json`
-
-### Start the app
-
-    $ npm start
-
-Then in another terminal window:
-
-    $ python -m SimpleHTTPServer
-
-### Run the specs
-
-    $ npm test
+You will want to add your Spotify credentials to `mopidy.conf` – do not commit
+these into the repo.
 
 ### Code coverage
 

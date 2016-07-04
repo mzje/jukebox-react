@@ -1,0 +1,11 @@
+<% if @results.empty? %>
+  <p>Sorry but your search for <em>&quot;<%= h params[:query] %>&quot;</em> returned no results</p>
+<% else %>
+  <table>
+    <%= render 'search/table_header', playlist: nil %>
+
+    <tbody id="search_results">
+      <%= render partial: "search/track", collection: @results, as: :track %>
+    </tbody>
+  </table>
+<% end %>

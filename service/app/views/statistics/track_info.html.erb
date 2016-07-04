@@ -1,0 +1,93 @@
+<div class="track-info">
+  <% unless @track_info.artist.nil? %>
+    <ul id="tabs">
+      <li class="current"><a href="#info">Track info</a></li>
+      <li><a href="#wikipedia">Wikipedia</a></li>
+    </ul>
+  <% end %>
+
+  <div id="info">
+    <%= album_image_tag(@track) %>
+    <h2><%= @track_info.title %> / <%= @track_info.artist %></h2>
+    <p><%= @track_info.filename %></p>
+
+    <div class="track_info">
+
+      <% unless @track.recent_plays.empty? %>
+        <% track = Track.find_on_mpd(@track.filename) %>
+        <%= content_tag(:h3, "ETA: #{time_of_play(track)}".html_safe) if track && track.pos %>
+
+        <h3>Recently added</h3>
+        <ul class="tracks_ratings">
+          <% @track.recent_plays.each do |cmd| %>
+            <li><%= distance_of_time_in_words_to_now(cmd.created_at) %> ago by <%= cmd.user.nickname rescue "Unknown" %></li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p>Not recently added.</p>
+      <% end %>
+    </div>
+
+    <div class="track_info">
+      <h3>Ratings</h3>
+      <% unless @track.votes.empty? %>
+        <%= vote_lists(@track) %>
+      <% else %>
+        <p>No votes.</p>
+      <% end %>
+    </div>
+
+    <div class="stream-track">
+      <h3>Stream track</h3>
+      <% if @track.local? %>
+        <object type="application/x-shockwave-flash" data="/flash/player_mp3.swf" width="200" height="20">
+          <param name="movie" value="/flash/player_mp3.swf" />
+          <param name="bgcolor" value="#000000" />
+          <param name="FlashVars" value="mp3=<%= downloads_url(:file => @track.filename) %>" />
+          <object type="audio/mpeg" data="<%= downloads_url(:file => @track.filename) %>" width="200" height="20">
+            <param name="controller" value="true" />
+            <param name="autoplay" value="false" />
+            <p>Sorry, your browser doesn’t support audio streaming :(</p>
+          </object>
+        </object>
+      <% end %>
+      <% if @track.spotify? %>
+        <iframe src="https://embed.spotify.com/?uri=<%= @track_info.filename %>" width="300" height="80" frameborder="0" allowtransparency="true"></iframe>
+      <% end %>
+    </div>
+
+    <% unless @track_info.artist.nil? %>
+      <div id="events">
+        <h3>Events</h3>
+        <% if @events && @events['events'] && @events['events']['event'].present? %>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+            <% @events['events']['event'].each do |event| %>
+              <% if event.is_a? Hash %>
+              <tr>
+                <td><%= link_to event['title'], event['url'] %></td>
+                <td><%= "#{event['venue']['name']}, #{event['venue']['location']['city']}, #{event['venue']['location']['country']}" %></td>
+                <td><%= DateTime.parse(event['startDate']).strftime("%d %b %Y, %H:%M") %></td>
+              </tr>
+              <% end %>
+            <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          <p>No upcoming events found.</p>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <% unless @track_info.artist.nil? %>
+    <iframe src="http://en.m.wikipedia.org/wiki/<%= @track_info.artist.gsub(' ','_') %>" width="100%" height="500" id="wikipedia"></iframe>
+  <% end %>
+</div>

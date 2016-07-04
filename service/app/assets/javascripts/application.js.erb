@@ -1,0 +1,534 @@
+// TODO update the estimated play time for tracks in the playlist on play/pause and skip/go back
+
+var doc = $(document);
+
+var connection_attempts = 0;
+var conn = {};
+var timeUpdater;
+var statusTimer;
+var playState;
+var manuallySetVolume;
+var debug = true;
+
+// store a template for a track for updating playlist
+Handlebars.registerHelper('url_encoder', function(file) {
+  return new Handlebars.SafeString(encodeURIComponent(file));
+});
+
+Handlebars.registerHelper('if', function(conditional, options) {
+  if(conditional) {
+    return options.fn(this);
+  }
+});
+
+var trackTemplate = Handlebars.compile('{{#each tracks}}'+
+  '<tr data-file="{{file}}" class="{{user_rating}}">'+
+    '<td class="track_time_to_play">{{eta}} <button data-songid="{{song_id}}" data-file="{{file}}" class="playlist_action remove_button"><i class="fa fa-times-circle"></i></button></td>'+
+    '<td class="track_title">{{title}} <b>({{duration}})</b> <a class="search_helper" href="/search?artist={{artist}}&amp;similar=true&amp;title={{title}}" title="Similar tracks"><i class="fa fa-question-circle"></i></a></td>'+
+    '<td class="track_artist"><a href="/search?query={{artist}}&amp;type=artist">{{artist}}</a></td>'+
+    '<td class="track_album"><a href="/search?query={{album}}&amp;type=album">{{album}}</a></td>'+
+    '<td class="track_rating"><span class="{{rating_class}}">{{rating}} {{{rating_icon}}}</span></td>'+
+    '<td class="track_added_by {{added_by}}"><span>{{added_by}}</span> <a class="search_helper info_link" href="/statistics/track_info?file={{{url_encoder file}}}" title="Track information"><i class="fa fa-info-circle"></i></a></td>'+
+    '<td class="track_download">{{#if local}}<a href="/downloads?file={{filename}}" download><i class="fa fa-cloud-download"></i></a>{{/if}}</td>'+
+  '</tr>'+
+'{{/each}}');
+
+
+$.fn.droppableFiles = function(){
+  return this.each(function(){
+    $(this).bind('dragenter dragexit dragover',function(e){
+      e.preventDefault();
+      e.stopPropagation();
+    }).bind('drop',function(e){
+      var tracks;
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.originalEvent.dataTransfer.files.length) {
+        // local files
+        tracks = e.originalEvent.dataTransfer.files.map(function(el){
+          return el.fileName;
+        });
+      } else {
+        // spotify references
+        tracks = e.originalEvent.dataTransfer.getData('text/plain').split(/\n/).map(function(el){
+          var t = el.replace(/^.*\/track\//,'spotify:track:');
+          return (t.match(/spotify:track/g) ? t : null);
+        });
+
+        // remove all nulls
+        tracks = $.grep(tracks,function(n){ return(n) });
+      }
+      conn.send( buildMPDMessage('bulk_add_to_playlist', { 'filenames' : tracks }) );
+    });
+  });
+}
+
+$.fn.keyboardShortcuts = function(){
+  return this.each(function(){
+    $(this).on('keypress',function(e){
+      if ($(e.target).is(':not(:input)')) {
+        switch (e.which) {
+          case 43: // + = vote up
+            vote_up.trigger('click');
+            break;
+          case 45: // - = vote down
+            vote_down.trigger('click');
+            break;
+          case 47: // / = focus search field
+            e.preventDefault();
+            $('#query').focus();
+            break;
+          case 105: // i = track info
+            info_link.trigger('click');
+            break;
+        }
+      }
+    });
+  });
+}
+
+var subNavTrigger = function(e){
+  $(this).next('.sub-nav').toggle();
+};
+
+var buildMPDMessage = function(command, value){
+  var payload = { user_id: current_user_id };
+  payload[command] = (value || '');
+  var json_payload = JSON.stringify(payload);
+
+  if (debug) {
+    console.log('buildMPDMessage: ' + command + ' : ' + json_payload);
+  }
+
+  return json_payload;
+};
+
+$.fn.addTrack = function(){
+  var target = $(this);
+  conn.send( buildMPDMessage('addid', target.data('file')) );
+};
+
+$.fn.removeTrack = function(){
+  var target = $(this);
+  var tr = target.parents('tr:first');
+
+  if ($('#playlist').length){
+    tr.nextAll().each(function(){
+      $(this).data('position', $(this).data('position')-1);
+    });
+    tr.remove();
+  } else {
+    target
+      .addClass('add_button')
+      .removeClass('remove_button')
+      .html('<i class="fa fa-plus-circle"></i>');
+  };
+
+  conn.send( buildMPDMessage('deleteid', target.data('songid')) );
+};
+
+var vote = function(state) {
+  $('#voting_container .voted').removeClass('voted');
+  (state == 1 ? vote_up : vote_down).addClass('voted');
+  conn.send( buildMPDMessage('vote', { 'state': state, 'filename': current_track_file }) );
+}
+
+var voteUp = function() {
+  if (!vote_up.hasClass('voted')) { vote(1) };
+}
+
+var voteDown = function() {
+  if (!vote_down.hasClass('voted')) { vote(0) };
+}
+
+var updateVotesAndRating  = function(changes){
+  $('#voting_container .voted').removeClass('voted');
+
+  if (changes.negative_ratings && changes.negative_ratings.indexOf(current_user)>=0) {
+    vote_down.addClass('voted');
+    track_list.children('.current').attr('class','current voted_negative');
+  }
+
+  if (changes.positive_ratings && changes.positive_ratings.indexOf(current_user)>=0) {
+    vote_up.addClass('voted');
+    track_list.children('.current').attr('class','current voted_positive');
+  }
+
+  if (changes.rating == null) {
+    rating_count.attr('class', 'unrated');
+    return;
+  };
+
+  rating_count.text(changes.rating);
+  rating_count.attr('class', changes.rating_class);
+
+  fetchTrack(changes.file).children('.track_rating').children()
+    .attr("class", (changes.rating_class))
+    .html(changes.rating + ' ' + ratingIcon(changes.rating));
+}
+
+var fetchTrack = function(track) {
+  var list = track_list.children().filter(function(){
+    return $(this).data('file') == track;
+  });
+
+  return list;
+}
+
+var updatePlaylist = function(playlist){
+  if (track_list.length) {
+    track_list.empty();
+    playlist.tracks.forEach(function(el){
+      if (el.negative_ratings.indexOf(current_user)>=0) {
+        el.user_rating = 'voted_negative';
+      }
+      if (el.positive_ratings.indexOf(current_user)>=0) {
+        el.user_rating = 'voted_positive';
+      }
+      el.rating_icon = ratingIcon(el.rating);
+    });
+    track_list.append(trackTemplate(playlist));
+    updateCurrentSongHighlight(playlist.current_track);
+  }
+}
+
+// tell the play/pause button which ajax request to make
+var playPause = function(e) {
+  if(playState != "play"){
+    conn.send( buildMPDMessage('play') );
+  } else {
+    conn.send( buildMPDMessage('pause') );
+  }
+}
+
+function playNext() {
+  conn.send( buildMPDMessage('next') );
+}
+
+function playPrevious() {
+  conn.send( buildMPDMessage('previous') );
+}
+
+///////////////////////// /
+// update page elements //
+//////////////////////////
+
+var ratingIcon = function(rating) {
+  var icon = '';
+  if (rating > 0) {
+    icon = '<i class="fa fa-caret-up"></i>';
+  } else if (rating < 0) {
+    icon = '<i class="fa fa-caret-down"></i>';
+  }
+  return icon;
+}
+
+function updateCurrentSong(track){
+  current_track.text(track.title || '-');
+  current_artist.text(track.artist || '-');
+  current_album.text(track.album || '-');
+  time_total.text(track.duration || '-').data('duration',time_to_seconds(track.duration));
+  track.rating==null ? rating_count.text('') : rating_count.text(track.rating);
+  current_owner.text(track.added_by || '-');
+  document.title = 'Jukebox – '+(track.title||'')+' / '+(track.artist||'');
+  info_link.attr("href", "/statistics/track_info?file=" + encodeURIComponent(track.file));
+
+  if (track.source) {
+    var track_source = $('#track-source span');
+    track_source.removeClass().addClass(track.source);
+    track_source.attr('title', track.source);
+
+  }
+
+  if (track.local) {
+    download_link.find('a').attr('href', '/downloads?file=' + encodeURIComponent(track.file));
+    download_link.show();
+  } else {
+    download_link.hide();
+  }
+
+  updateCurrentSongHighlight(track.file);
+  updateArtwork(track);
+  current_track_file = track.file
+}
+
+function updateArtwork(track){
+  var newImage;
+
+  if (track.artwork_url) {
+    newImage = '<a href="'+track.artwork_url+'" id="artwork_link"><img src="'+track.artwork_url+'" id="artwork" alt="" /></a>';
+    $('.artwork-background').css('background-image','url('+track.artwork_url+')');
+  } else {
+    newImage = '<%= image_tag 'no_artwork.png', id: 'no-artwork', alt: '' %>';
+    $('.artwork-background').css('background-image','');
+  }
+
+  player_artwork.children('a,img').replaceWith(newImage);
+}
+
+// Remove class from highlighted track and add it to the specified track (only on playlist page)
+function updateCurrentSongHighlight(filename){
+  track_list.children('.current').removeClass('current');
+  track_list.children().filter(function(){
+    return $(this).data('file') == filename;
+  }).addClass('current');
+}
+
+function updateCurrentTime(time){
+  if (playState == "play"){
+    if (time!=undefined) { // server-side time sync
+      clearInterval(timeUpdater);
+      time = parseInt(time,10);
+      timeUpdater = setInterval(function(){
+        updateCurrentTime(undefined);
+      },1000);
+    } else { // client-side time update
+      time = parseInt(time_elapsed.data('time'),10)+1;
+    }
+    time_elapsed.data('time',time).text(seconds_to_time(time));
+    progress_bar.attr({value: time/time_total.data('duration')});
+  }
+}
+
+function addStatusUpdate(track){
+  if (track.added_by != current_user) {
+    status_updates.empty().append('<p>'+track.title+' – '+track.artist+' added by '+track.added_by+'</p>');
+    clearTimeout(statusTimer);
+    statusTimer = setTimeout(removeStatusUpdate,5000);
+  }
+}
+
+function updateSearchResults(track){
+  var target = $('#search_results td.track_action *[data-file="'+track.file+'"]');
+  target
+    .addClass('remove_button')
+    .removeClass('add_button')
+    .data('songid', track.dbid)
+    .html('<i class="fa fa-times-circle"></i>');
+}
+
+function removeStatusUpdate(){
+  var status = status_updates.children();
+  if (status.length) {
+    status.fadeOut(500,function(){
+      status.remove();
+    });
+  }
+}
+
+function seconds_to_time(seconds) {
+  var seconds = parseInt(seconds,10);
+  var minutes = seconds/60;
+  var padded = function(number){
+    number = number+'';
+    return number.length<2 ? '0'+number : number;
+  }
+  return padded(Math.floor(minutes)) + ':' + padded(seconds%60);
+}
+
+function time_to_seconds(time) {
+  if (time != null) {
+    time = time.split(':');
+    return parseInt(time[0],10)*60 + parseInt(time[1],10);
+  }
+}
+
+function updatePlayPauseButton(state){
+  playState = state;
+  if (state == 'play') {
+    play_pause.html('<i class="fa fa-pause"></i> <span>Pause</span>');
+    updateCurrentTime(time_elapsed.data('time'));
+  } else {
+    play_pause.html('<i class="fa fa-play"></i> <span>Play</span>');
+    clearInterval(timeUpdater);
+  }
+}
+
+var clearTrackList = function(e){
+  if (confirm("Are you sure you want to clear the playlist?")) {
+    track_list.empty();
+    updatePlayPauseButton('pause');
+    current_owner.text('-');
+    time_elapsed.data('time',0).text('-');
+
+    conn.send( buildMPDMessage('clear') );
+  }
+}
+
+var addRemoveTracks = function(){
+  var button = $(this);
+  if (button.is('.remove_button')) {
+    button.removeTrack();
+  } else {
+    button.addTrack();
+  }
+}
+
+/////////////////////////////
+// bind events and run app //
+/////////////////////////////
+
+doc.on('click','.sub-nav-trigger',subNavTrigger)
+  .on('click','#clear_playlist',clearTrackList)
+  .on('click','#play_pause',playPause)
+  .on('click','#previous',playPrevious)
+  .on('click','#next',playNext)
+  .on('click','#vote_up',voteUp)
+  .on('click','#vote_down',voteDown)
+  .on('click','.playlist_action',addRemoveTracks);
+
+doc.magnificPopup({
+  delegate: '.info_link',
+  type: 'ajax',
+  callbacks: {
+    ajaxContentAdded: function(){
+      $('#tabs').on('click','a',function(e){
+        e.preventDefault();
+        $(this).parent().addClass('current').siblings().removeClass('current');
+        $($(this).attr('href')).show().siblings('div,iframe').hide();
+      }).find('a:first').trigger('click');
+    }
+  }
+});
+
+doc.on('ready',function(){
+
+  current_user = $('body').data('current_user');
+  current_user_id = $('body').data('current_user_id');
+  current_track_file = null;
+
+  // REFERENCES TO INTERFACE ELEMENTS
+  current_track = $('#current_track');
+  current_artist = $('#current_artist');
+  current_album = $('#current_album');
+  download_link = $('.player-download');
+  current_owner = $('#current_owner');
+  player_artwork = $('.artwork-container');
+  rating_count = player_artwork.children('span');
+  time_elapsed = $('#time_elapsed');
+  time_total = $('#time_total');
+  progress_bar = $('#progressbar');
+  volume = $('#volume');
+  status_updates = $('#status_updates');
+  play_pause = $('#play_pause');
+  info_link = $(".status a.info_link");
+  track_list = $("#track_list");
+  vote_up = $('#vote_up');
+  vote_down = $('#vote_down');
+
+  $('#query').inputPlaceholder();
+
+  /* Setup screen elements */
+  progress_bar.prop({value:0});
+
+  // bind drag handlers to allow dropping files on playlist
+  $('body').droppableFiles();
+  doc.keyboardShortcuts();
+
+  // open a websocket connection. We keep trying every few seconds if the connection has closed (sleep/unsleep etc)
+  openConnection();
+  setInterval(openConnection,5000);
+
+  // Output ajax callback errors to the console…
+  $(document).ajaxError(function(event, request, settings){
+     console.log("Ajax error requesting page " + settings.url + " Error:" + request.responseText);
+   });
+
+  player_artwork.magnificPopup({
+    delegate: '#artwork_link',
+    type: 'image'
+  });
+
+  volume.on('mouseup',function(){
+    manuallySetVolume = true;
+    conn.send( buildMPDMessage('setvol', volume.val()) );
+  });
+
+});
+
+////////////////////////////////
+// Web Sockets implementation //
+////////////////////////////////
+
+function openConnection(){
+  try {
+
+    if (conn.readyState === undefined || conn.readyState > 1) {
+      console.log('HELLO FOO');
+      console.log("<%= Rails.configuration.client_host %>")
+      // Connect to the web socket server
+      var uri = "ws://localhost:<%= Rails.configuration.websocket_port %>";
+      if ("WebSocket" in window) {
+        conn = new WebSocket(uri);
+      } else {
+        console.error('No WebSocket support 😢');
+      }
+
+      // Called every time the browser loads/refreshes a page
+      // The web sever loads all the current info on the page
+      // So we don't actually need to do anything
+      conn.onopen = function(){
+        console.log("Socket opened");
+      }
+
+      // Process the update messages the server broadcasts
+      // See SocketDispatcher class for the format of these messages
+      conn.onmessage = function(msg){
+        data = JSON.parse(msg.data);
+
+        if ("state" in data) {
+          updatePlayPauseButton(data["state"]);
+        }
+
+        if ("time" in data) {
+          updateCurrentTime(data["time"]);
+        }
+
+        if ("rating" in data) {
+          updateVotesAndRating(data["rating"]);
+        }
+
+        if ("track_added" in data) {
+          addStatusUpdate(data["track_added"]);
+          updateSearchResults(data["track_added"]);
+        }
+
+        if ("track" in data) {
+          updateCurrentSong(data["track"]);
+        }
+
+        if ("playlist" in data) {
+          updatePlaylist(data["playlist"]);
+        }
+
+        if ("volume" in data) {
+          if (manuallySetVolume) {
+            manuallySetVolume = false;
+          } else {
+            volume.val(data["volume"]);
+          }
+        }
+
+        if ("refresh" in data) {
+          window.location.reload(true); // force the browser to reload the page from the server (not from cache)
+        }
+      }
+
+      // Called every time a browser closes/refreshes a page
+      // or connection to the Web Socket Server is lost
+      // Automatically tries to reconnect, increasing the wait time on each attempt by a second
+      conn.onclose = function(){
+        console.log("Socket closed");
+        clearInterval(timeUpdater); // stop the progress bar if it’s running
+        // All the config settings are in one place in the app apart from here where they
+        // are hardcoded which makes it a pain in dev mode testing.
+        //if (socket_server != 'jukebox.local') socket_server = 'jukebox.local'; // if no local server try the jukebox
+        setTimeout(openConnection, connection_attempts * 1000);
+        connection_attempts++;
+        console.log("WS connection attempt to <%= Rails.configuration.websocket_host %> #" + connection_attempts);
+      }
+    }
+  } catch(exception) {
+    alert(exception);
+  }
+}

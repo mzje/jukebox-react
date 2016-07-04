@@ -1,0 +1,7 @@
+<table>
+  <%= render 'table_header', playlist: true %>
+
+  <tbody id="track_list">
+    <%= render partial: 'track', collection: @tracks, playlist: true %>
+  </tbody>
+</table>

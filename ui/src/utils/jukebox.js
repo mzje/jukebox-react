@@ -7,7 +7,7 @@ class Jukebox {
 
   websocketServerURI() {
     return ('ws://localhost:8081');
-    //return ('ws://jukebox.local:8081');
+    // return ('ws://jukebox.local:8081');
   }
 
   openConnection() {

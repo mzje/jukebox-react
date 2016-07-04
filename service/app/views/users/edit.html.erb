@@ -1,0 +1,31 @@
+<div class="formbox">
+  <h1>Edit your details</h1>
+  <p>If you use the KyanBar app and you want to be able to vote etc you will need your UserID</p>
+  <p>Your UserID is: <strong><%= @user.id %></strong></p>
+
+  <% if !@user.authenticated_with_spotify? %>
+    <p><%= link_to 'Sign in with Spotify', '/auth/spotify' %></p>
+  <% end %>
+
+  <%= content_tag(:p, flash[:notice]) if flash[:notice] %>
+
+  <%= form_for @user do |f| -%>
+    <%= error_messages_for @user %>
+    <fieldset>
+
+      <div><%= f.label :name %>
+      <%= f.text_field :name %></div>
+
+      <div><%= f.label :nickname %>
+      <%= f.text_field :nickname %></div>
+
+      <div><%= f.label :email %>
+      <%= f.text_field :email %></div>
+
+      <div><%= f.label :lastfm_name, "Last.fm Username" %>
+      <%= f.text_field :lastfm_name %></div>
+
+      <div><%= submit_tag "Save" %></div>
+    </fieldset>
+  <%- end -%>
+</div>

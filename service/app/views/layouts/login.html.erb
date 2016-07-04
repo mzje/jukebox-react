@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	<meta charset="UTF-8" />
+		<title>Jukebox</title>
+		<%= stylesheet_link_tag "manifest-login" %>
+	</head>
+
+	<body>
+		<div class="container">
+			<main>
+			<%= content_tag "p", flash[:notice], :class => "flash notice" if flash[:notice] %>
+			<%= content_tag "p", flash[:error], :class => "flash error" if flash[:error] %>
+				<%= yield %>
+			</main>
+		</div>
+	</body>
+</html>

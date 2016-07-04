@@ -1,0 +1,6 @@
+websocket_server: bundle exec rake websocket_services:start_websocket_server >/dev/null
+status_dispatcher: bundle exec rake websocket_services:start_status_dispatcher >/dev/null
+delayed_job: bundle exec rake jobs:work >/dev/null
+scrobbler: bundle exec rake scrobbler:start >/dev/null
+playlist_sweeper: bundle exec rake big_rainbow_head:sweep_playlist >/dev/null
+party_shuffle: bundle exec rake big_rainbow_head:party_shuffle >/dev/null

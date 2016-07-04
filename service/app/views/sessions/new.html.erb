@@ -1,0 +1,18 @@
+<%= form_tag session_path, class: 'formbox' do %>
+
+	<fieldset>
+		<div>
+			<%= label_tag :login, 'User name' %>
+			<%= text_field_tag :login, @login %>
+		</div>
+		<div>
+			<%= label_tag :password %>
+			<%= password_field_tag :password, nil %>
+		</div>
+	</fieldset>
+
+	<fieldset class="submit">
+		<button>Log in</button>
+	</fieldset>
+
+<% end %>

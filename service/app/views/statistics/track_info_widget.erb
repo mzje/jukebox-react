@@ -1,0 +1,7 @@
+<div class="track_info">
+	<% unless @track.votes.empty? %>
+		<%= vote_lists(@track) %>
+	<% else %>
+		<p>No votes.</p>
+	<% end %>
+</div>

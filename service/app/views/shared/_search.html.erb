@@ -1,0 +1,6 @@
+<%= form_tag(search_url, :class => "search-form", :method => 'get') do %>
+  <label for="query">Search</label>
+  <%= text_field_tag :query, h(params[:query]), :type => 'search' %>
+  <%= select_tag :type, options_for_select(%w{any artist album title genre}, params[:type]) %>
+  <button><i class="fa fa-search"></i></button>
+<% end %>

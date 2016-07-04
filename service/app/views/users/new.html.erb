@@ -1,0 +1,26 @@
+<% @user.password = @user.password_confirmation = nil %>
+<div class="formbox">
+	<h1>Sign up as a new user</h1>
+	<%= error_messages_for @user %>
+	<%= form_for :user, :url => users_path do |f| -%>
+		<div><%= label_tag 'login' %>
+		<%= f.text_field :login %></div>
+
+		<div><%= label_tag 'Name' %>
+		<%= f.text_field :name %></div>
+
+		<div><%= label_tag 'Nickname (max 4 characters)' %>
+		<%= f.text_field :nickname %></div>
+
+		<div><%= label_tag 'email' %>
+		<%= f.text_field :email %></div>
+
+		<div><%= label_tag 'password' %>
+		<%= f.password_field :password %></div>
+
+		<div><%= label_tag 'password_confirmation', 'Confirm Password' %>
+		<%= f.password_field :password_confirmation %></div>
+		<br />
+		<div><%= submit_tag 'Sign up' %></div>
+	<% end -%>
+</div>

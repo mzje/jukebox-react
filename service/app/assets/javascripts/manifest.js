@@ -1,0 +1,5 @@
+//= require 'jquery'
+//= require 'magnific.min'
+//= require 'handlebars.min'
+//= require 'input_placeholder'
+//= require 'application'

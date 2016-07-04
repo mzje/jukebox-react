@@ -1,0 +1,24 @@
+<tr class="<%= rated_class(track,current_user) %> <%= @current_song && @current_song.song_id == track.song_id ? 'current' : nil %>" data-file="<%= track.file.try(:force_encoding, "UTF-8") %>">
+  <td class="track_time_to_play"><%= track.eta %> <%= add_remove_button(track) %></td>
+  <td class="track_title">
+    <%= track.title.try(:force_encoding, "UTF-8") %>
+    <b>(<%= track.duration %>)</b>
+    <a href="/search?artist=<%= track.artist.try(:force_encoding, "UTF-8") %>&amp;similar=true&amp;title=<%= track.title.try(:force_encoding, "UTF-8") %>" class="search_helper info_link" title="Similar tracks"><%= icon 'question-circle' %></a>
+  </td>
+  <td class="track_artist">
+    <a href="/search?query=<%= track.artist.try(:force_encoding, "UTF-8") %>&amp;type=artist"><%= track.artist.try(:force_encoding, "UTF-8") %></a>
+  </td>
+  <td class="track_album">
+    <a href="/search?query=<%= track.album.try(:force_encoding, "UTF-8") %>&amp;type=album"><%= track.album.try(:force_encoding, "UTF-8") %></a>
+  </td>
+  <td class="track_rating"><%= track_rating_tags track %></td>
+  <td class="track_added_by <%= track.added_by %>">
+    <span><%= track.added_by %></span>
+    <%= current_track_info(track) %>
+  </td>
+  <td class="track_download">
+    <% if track.source == 'local' %>
+      <a href="downloads?file=<%= track.filename %>" download><i class="fa fa-cloud-download"></i></a>
+    <% end %>
+  </td>
+</tr>

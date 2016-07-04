@@ -1,0 +1,12 @@
+@import 'core';
+
+.flash, .user_notifications li { padding: 9px 15px 9px 30px; background: no-repeat 10px 9px; margin-bottom: 10px; color: #fff; border-radius: 4px; }
+.notice, .complete li { background-color: #9c3; background-image: asset-data-url('icon_ok.png'); font-weight: bold; }
+.error, .created li { background-color: #ff5d51; background-image: asset-data-url('icon_error.png'); }
+
+main { background: $black; color: $white; max-width: 50%; margin: auto; }
+main::after { content: none; }
+
+fieldset>div { margin: 0 0 1em; }
+label { display: block; margin: 0 0 .5em; }
+input { padding: 1em; color: $black; font: 1em/1.286 $font-family; border: 0; width: 100%; box-sizing: border-box; }

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title id="title">Jukebox – <%= "#{@current_song.title} / #{@current_song.artist}" if @current_song %></title>
+    <link rel="icon" href="/favicon.png" />
+    <%= stylesheet_link_tag "manifest" %>
+    <%= javascript_include_tag "manifest" %>
+  </head>
+
+  <body id="<%= @body_id %>" data-current_user="<%= @current_user.nickname if @current_user %>" data-current_user_id="<%= @current_user.id if @current_user %>">
+
+    <div class="container">
+
+    <%= render :partial => 'shared/player' %>
+
+    <main>
+      <% if flash[:error] %>
+        <p>––––––––––––––––– <%= flash[:error] %> –––––––––––––––––</p>
+      <% end %>
+      <header class="page-header">
+        <nav>
+          <ul>
+            <li><%= link_to_unless (controller.is_a?(BaseController) && params[:action] != "random"), "Playlist", home_url %></li>
+            <li><%= link_to_unless (controller.is_a? FavouritesController), "Top 100", favourites_url %></li>
+            <li><%= link_to_unless (controller.is_a?(BaseController) && params[:action] == "random"), "Suggestions", random_url %></li>
+            <li>
+              <button class="sub-nav-trigger"><i class="fa fa-cog"></i></button>
+              <ul class="sub-nav">
+                <% if logged_in? %>
+                  <li><%= link_to "Account details", edit_user_path(current_user), name: "account" %></li>
+                  <li><a href="http://last.fm/user/kyanmedia" target="_blank">Kyan Last.fm</a></li>
+                  <%= content_tag(:li, link_to("Your last.fm", "http://last.fm/user/#{h(current_user.lastfm_name)}")) if current_user.lastfm_name.present? %>
+                  <li><%= link_to "Logout", logout_url %></li>
+                <% else %>
+                  <li><%= link_to "Login", login_url  %></li>
+                <% end %>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+        <%= render :partial => "shared/search" %>
+      </header>
+
+      <% if @body_id == "browse" %>
+        <%= breadcrumb(params[:path]) %>
+      <% end %>
+
+      <%= yield %>
+
+    </main>
+
+    </div><!-- /container -->
+    <%= javascript_tag "window._token = '#{form_authenticity_token}'" %>
+  </body>
+</html>

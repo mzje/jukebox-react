@@ -1,0 +1,20 @@
+FROM ruby:2.3.0
+
+RUN gem update --system 2.6.1
+
+RUN apt-get -q update
+RUN apt-get -y install telnet
+
+ENV PROJECT_DIR=/app/
+
+RUN mkdir -p $PROJECT_DIR
+WORKDIR $PROJECT_DIR
+COPY Gemfile $PROJECT_DIR
+COPY Gemfile.lock $PROJECT_DIR
+
+RUN gem install bundler --no-rdoc --no-ri
+RUN bundle install
+
+ADD . /app
+
+EXPOSE 3000

@@ -1,0 +1,18 @@
+<% if @file %>
+
+  <h2>Recently added MP3s</h2>
+  <p>Last updated: <%= @last_updated.strftime("%A %d %B %Y at %H:%M") %></p>
+  
+    <% @grouped_mp3s.each do |date, mp3s| %>
+      <p><%= date %></p>
+      <ul>
+        <% mp3s.each do |mp3| %>
+          <li><%= mp3.match(/\/var\/lib\/mpd\/music\/(.+\.mp3)/)[1].gsub("\\ ", " ") rescue mp3 %></li>
+        <% end %>
+      </ul>
+    <% end %>
+
+
+<% else %>
+  <p>Recent mp3s file not found.</p>
+<% end %>

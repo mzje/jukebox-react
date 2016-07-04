@@ -71,7 +71,7 @@ gulp.task('clean', cb => {
 
 gulp.task('browserSync', () => {
   browserSync({
-    port: 8081,
+    port: 8080,
     ui: false,
     open: false,
     online: false,

@@ -1,0 +1,15 @@
+<h1>Last.fm authentication</h1>
+
+<h2>Step One</h2>
+<p>In order for the Jukebox to do wonderful things with your last.fm account you will need to:</p>
+
+<p style="font-size:16px;"><strong><%= link_to("Visit last.fm", @auth.url(session[:lastfm_token]), :method => :get, :target => "_blank") %></strong></p>
+
+<h2>Step Two</h2>
+<p>Did you successfully dance the authentication dance and grant the Jukebox access to your last.fm account?</p>
+
+<%= form_tag do %>
+
+  <%= submit_tag "Yes, please update my account" %>
+
+<% end %>
