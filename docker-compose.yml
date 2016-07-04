@@ -1,16 +1,15 @@
 version: '2'
 services:
-  # web:
-  #   image: jukebox_react:v1
-  #   build:
-  #     context: ./ui
-  #     dockerfile: Dockerfile.ui
-  #   volumes:
-  #      - ./ui:/app/ui
-  #      - /app/ui/node_modules
-  #   ports:
-  #     - "8081:8081"
-  #   command: npm start
+  web:
+    build:
+      context: ./ui
+      dockerfile: Dockerfile.ui
+    volumes:
+       - ./ui:/app/ui
+       - /app/ui/node_modules
+    ports:
+      - "8080:8080"
+    command: npm start
   mopidy:
     image: mopidy:v1
     build:
@@ -22,3 +21,49 @@ services:
       - "6600:6600"
       - "6680:6680"
     command: mopidy
+  service:
+    build:
+      context: ./service
+      dockerfile: Dockerfile.service
+    volumes:
+      - .:/service
+    ports:
+      - "3000:3000"
+    command: bundle exec thin start
+    depends_on:
+      - db
+  # dj:
+  #   build:
+  #     context: ./service
+  #     dockerfile: Dockerfile.service
+  #   volumes:
+  #     - .:/service
+  #   command: bundle exec rake jobs:work
+  #   depends_on:
+  #     - db
+  websocket_server:
+    build:
+      context: ./service
+      dockerfile: Dockerfile.service
+    volumes:
+      - .:/service
+    ports:
+      - "8081:8081"
+    command: bundle exec rake websocket_services:start_websocket_server
+    depends_on:
+      - mopidy
+  status_dispatcher:
+    build:
+      context: ./service
+      dockerfile: Dockerfile.service
+    ports:
+      - "8091:8091"
+    volumes:
+      - .:/service
+    command: bundle exec rake websocket_services:start_status_dispatcher
+    depends_on:
+      - websocket_server
+      - mopidy
+  db:
+    image: postgres
+
