@@ -21,6 +21,7 @@ describe('Store', () => {
           track: null,
           user_id: null,
           time: null,
+          playlist: null,
           connection: {
             open: false,
             error_message: null,
@@ -146,6 +147,7 @@ describe('Store', () => {
           track: null,
           user_id: null,
           time: null,
+          playlist: null,
           connection: {
             open: false,
             error_message: null,

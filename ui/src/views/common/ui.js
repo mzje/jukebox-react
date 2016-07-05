@@ -61,10 +61,12 @@ class UI extends React.Component {
     const time = this.state.storeData.get('time');
     const connection = this.state.storeData.get('connection');
     return (
-      <div>
-        {this.headerHTML(connection)}
+      <div className="ui-container">
         {this.sidePanelHTML(track, userId, time)}
-        {this.props.children}
+        <main className="ui-content">
+          {this.headerHTML(connection)}
+          {this.props.children}
+        </main>
       </div>
     );
   }

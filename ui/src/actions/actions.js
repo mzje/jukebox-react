@@ -48,6 +48,13 @@ const Actions = {
       actionType: Constants.UPDATE_RATING,
       rating: rating
     });
+  },
+
+  updatePlaylist: (playlist) => {
+    Dispatcher.dispatch({
+      actionType: Constants.UPDATE_PLAYLIST,
+      playlist: playlist
+    });
   }
 };
 
