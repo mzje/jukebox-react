@@ -29,19 +29,22 @@ class Playlist extends React.Component {
     });
   }
 
-  rowsHTML(playlist) {
-    return playlist.get('tracks').map(this.rowHTML);
+  rowsHTML(playlist, currentTrack) {
+    return playlist.get('tracks').map(this.rowHTML(currentTrack));
   }
 
-  rowHTML = (track) => <PlaylistRow track={track} />
+  rowHTML = (currentTrack) => (track) => {
+    let current = currentTrack.get('filename') === track.get('filename');
+    return <PlaylistRow track={track} current={current} />;
+  };
 
-  playlistHTML(playlist) {
+  playlistHTML(playlist, currentTrack) {
     let html;
     if (playlist) {
       html = (
-        <table>
+        <table className='ui-playlist-table'>
           <tbody>
-            {this.rowsHTML(playlist)}
+            {this.rowsHTML(playlist, currentTrack)}
           </tbody>
         </table>
       );
@@ -51,9 +54,10 @@ class Playlist extends React.Component {
 
   render() {
     const playlist = this.state.storeData.get('playlist');
+    const currentTrack = this.state.storeData.get('track');
     return (
       <div className="ui-playlist">
-        {this.playlistHTML(playlist)}
+        {this.playlistHTML(playlist, currentTrack)}
       </div>
     );
   }

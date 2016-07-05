@@ -1,5 +1,18 @@
 body {
   font-family: 'Helvetica Neue',Arial,Helvetica,sans-serif;
+  margin: 0;
+}
+
+.ui-container {
+  display: flex;
+}
+
+.ui-side-panel {
+  width: 320px;
+  background-color: #222;
+  color: #FFF;
+  position: relative;
+  text-align: center;
 }
 
 .progressBarContainer {
@@ -11,4 +24,34 @@ body {
 .progressBarContent {
   height: 10px;
   background: #999;
+}
+
+.ui-content {
+  flex: 1;
+}
+
+.ui-playlist-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ui-playlist-row:nth-child(even) {
+  background-color: #f7f7f7;
+}
+
+.ui-playlist-row--current {
+  background-color: #DDD !important;
+}
+
+.ui-playlist-cell {
+  padding: 1em 1em 1em 0;
+  position: relative;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.ui-playlist-cell ui-playlist-cell__rating {
+  width: 40px;
+  font-weight: bold;
 }

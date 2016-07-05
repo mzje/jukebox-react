@@ -47,6 +47,7 @@ class Jukebox {
     const track = data.get('track');
     const rating = data.get('rating');
     const time = data.get('time');
+    const playlist = data.get('playlist');
 
     // if ("state" in data) {
     //   // self.setState({
@@ -68,8 +69,8 @@ class Jukebox {
     //   // })
     // }
 
-    if ('playlist' in data) {
-      Actions.updatePlaylist(Immutable.fromJS(data.playlist));
+    if (playlist) {
+      Actions.updatePlaylist(Immutable.fromJS(playlist));
     }
 
     if (time) {
