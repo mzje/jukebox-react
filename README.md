@@ -17,7 +17,7 @@ This will:
 
 In another tab you can run the test suite.
 
-`$ docker-compose run web gulp`
+`$ docker-compose exec web gulp`
 
 ## Get started manually
 

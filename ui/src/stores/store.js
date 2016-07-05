@@ -60,7 +60,7 @@ class Store extends EventEmitter {
   }
 
   [Constants.UPDATE_PLAYLIST](action) {
-    this.data = this.data.set('playlist', action.playlist)
+    this.data = this.data.set('playlist', action.playlist);
   }
 
   dispatcherCallback(action) {

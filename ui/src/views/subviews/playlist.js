@@ -5,7 +5,7 @@ import PlaylistRow from './playlist-row';
 class Playlist extends React.Component {
   constructor(props) {
     super(props);
-    let store = Store
+    const store = Store;
     this.state = {
       store: store,
       storeData: store.currentState()
@@ -33,39 +33,24 @@ class Playlist extends React.Component {
     return playlist.get('tracks').map(this.rowHTML);
   }
 
-  rowHTML = (track) => {
-    return <PlaylistRow track={track} />
-  }
+  rowHTML = (track) => <PlaylistRow track={track} />
 
   playlistHTML(playlist) {
-    console.log('playlistHTML');
-    console.log(playlist);
-    let yes
-    if(playlist) {
-      yes = 'true'
-
-    } else {
-      yes = 'false'
-    }
-    console.log(
-      yes
-    );
-    if(playlist) {
-      console.log('show playlist')
-      return(
+    let html;
+    if (playlist) {
+      html = (
         <table>
           <tbody>
-            { this.rowsHTML(playlist) }
+            {this.rowsHTML(playlist)}
           </tbody>
         </table>
       );
-    } else {
-      return null
     }
+    return html;
   }
 
   render() {
-    let playlist = this.state.storeData.get('playlist');
+    const playlist = this.state.storeData.get('playlist');
     return (
       <div className="ui-playlist">
         {this.playlistHTML(playlist)}

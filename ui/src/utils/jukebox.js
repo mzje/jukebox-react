@@ -68,8 +68,8 @@ class Jukebox {
     //   // })
     // }
 
-    if ("playlist" in data) {
-      Actions.updatePlaylist(Immutable.fromJS(data['playlist']));
+    if ('playlist' in data) {
+      Actions.updatePlaylist(Immutable.fromJS(data.playlist));
     }
 
     if (time) {
