@@ -2,6 +2,7 @@ import React from 'react';
 import TestUtils from 'react/lib/ReactTestUtils';
 import Ui from './../../../src/views/common/ui';
 import SidePanel from './../../../src/views/common/side-panel';
+import Immutable from 'immutable';
 
 describe('Ui', () => {
   let instance;
@@ -49,7 +50,7 @@ describe('Ui', () => {
   describe('sidePanelHTML', () => {
     it('renders a SidePanel component', () => {
       instance = new Ui();
-      let track = 'track';
+      let track = Immutable.fromJS({});
       let userId = 'userId'
       let panelHTML = TestUtils.renderIntoDocument(
         instance.sidePanelHTML(track, userId)

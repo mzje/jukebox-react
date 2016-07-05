@@ -1,6 +1,7 @@
 import React from 'react';
 import TestUtils from 'react/lib/ReactTestUtils';
 import SidePanel from './../../../src/views/common/side-panel';
+import Immutable from 'immutable';
 
 describe('SidePanel', () => {
   let instance;
@@ -10,7 +11,7 @@ describe('SidePanel', () => {
       instance = new SidePanel();
     });
     it('returns an instance of the NowPlaying component', () => {
-      let track = 'foo'
+      let track = Immutable.fromJS({})
       let nowPlayingComponent = TestUtils.renderIntoDocument(
         instance.nowPlayingHTML(track)
       )

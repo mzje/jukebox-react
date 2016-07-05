@@ -41,6 +41,13 @@ const Actions = {
       actionType: Constants.UPDATE_TIME,
       time: time
     });
+  },
+
+  updateRating: (rating) => {
+    Dispatcher.dispatch({
+      actionType: Constants.UPDATE_RATING,
+      rating: rating
+    });
   }
 };
 

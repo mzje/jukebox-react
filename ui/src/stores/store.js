@@ -49,6 +49,15 @@ class Store extends EventEmitter {
     this.data = this.data.set('time', action.time);
   }
 
+  [Constants.UPDATE_RATING](action) {
+    this.data = this.data.setIn(
+      ['track', 'rating'], action.rating.get('rating')
+    );
+    this.data = this.data.setIn(
+      ['track', 'rating_class'], action.rating.get('rating_class')
+    );
+  }
+
   dispatcherCallback(action) {
     if (this[action.actionType]) {
       this[action.actionType].call(this, action);
