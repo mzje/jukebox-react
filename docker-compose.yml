@@ -1,24 +1,24 @@
 version: '2'
 services:
-  # web:
-  #   image: jukebox_react:v1
-  #   build:
-  #     context: ./ui
-  #     dockerfile: Dockerfile.ui
-  #   volumes:
-  #      - ./ui:/app/ui
-  #      - /app/ui/node_modules
-  #   ports:
-  #     - "8081:8081"
-  #   command: npm start
-  mopidy:
-    image: mopidy:v1
+  web:
+    image: jukebox_react:v1
     build:
-      context: ./mopidy
-      dockerfile: Dockerfile.mopidy
+      context: ./ui
+      dockerfile: Dockerfile.ui
     volumes:
-      - ./mopidy/media:/music/music_collections/000_notonspotify
+       - ./ui:/app/ui
+       - /app/ui/node_modules
     ports:
-      - "6600:6600"
-      - "6680:6680"
-    command: mopidy
+      - "8081:8081"
+    command: npm start
+  # mopidy:
+  #   image: mopidy:v1
+  #   build:
+  #     context: ./mopidy
+  #     dockerfile: Dockerfile.mopidy
+  #   volumes:
+  #     - ./mopidy/media:/music/music_collections/000_notonspotify
+  #   ports:
+  #     - "6600:6600"
+  #     - "6680:6680"
+  #   command: mopidy
