@@ -1,7 +1,7 @@
 version: '2'
 services:
   web:
-    image: jukebox_react:v1
+    image: jukebox_react:v2
     build:
       context: ./ui
       dockerfile: Dockerfile.ui

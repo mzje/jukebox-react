@@ -11,13 +11,13 @@ on the project. To get going you can just run (from the project root):
 
 This will:
 
-* Build an Image for the UI and run it. It also runs the linter.
+* Build an Image for the UI and run it.
 
 ### Running the test suite
 
 In another tab you can run the test suite.
 
-`$ docker-compose exec web gulp`
+`$ docker-compose exec web gulp test`
 
 ## Get started manually
 
