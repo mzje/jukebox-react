@@ -20,6 +20,8 @@ describe('Store', () => {
         Immutable.fromJS({
           track: null,
           user_id: null,
+          volume: null,
+          playState: null,
           time: null,
           playlist: null,
           connection: {
@@ -146,6 +148,8 @@ describe('Store', () => {
         Immutable.fromJS({
           track: null,
           user_id: null,
+          volume: null,
+          playState: null,
           time: null,
           playlist: null,
           connection: {
