@@ -154,6 +154,24 @@ describe('Jukebox', () => {
       });
     });
 
+    describe('when rating data is present', () => {
+      it('calls the updateRating action', () => {
+        data = '{"rating": "1"}'
+        message = {data: data}
+        instance.handleMessage(message);
+        expect(Actions.updateRating).toHaveBeenCalledWith('1');
+      });
+    });
+
+    describe('when playlist data is present', () => {
+      it('calls the updateRating action', () => {
+        data = '{"playlist": "foo"}'
+        message = {data: data}
+        instance.handleMessage(message);
+        expect(Actions.updatePlaylist).toHaveBeenCalledWith('foo');
+      });
+    });
+
     describe('when no data is present', () => {
       beforeEach(() => {
         message = {data: '{}'}
