@@ -26,7 +26,7 @@ class TrackTime extends React.Component {
   }
 
   contentHTML(duration, time) {
-    if (typeof(duration) === 'string' && (typeof(time) === 'number' || typeof(time) === 'string')) {
+    if (typeof(duration) !== 'undefined' && typeof(time) !== 'undefined') {
       return (
         <div>
           <ProgressBar duration={duration} time={time} />
