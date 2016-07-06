@@ -2,7 +2,24 @@
 
 [![Codeship Status for kyan/jukebox-react](https://codeship.com/projects/48b19f90-0ae9-0134-60dd-223fae911045/status?branch=master)](https://codeship.com/projects/155708)
 
-## Get started
+## Get started using Docker
+
+If you have Docker installed, this is the fastest and prefered way to develop
+on the project. To get going you can just run (from the project root):
+
+`$ docker-compose up`
+
+This will:
+
+* Build an Image for the UI and run it. It also runs the linter.
+
+### Running the test suite
+
+In another tab you can run the test suite.
+
+`$ docker-compose exec web gulp`
+
+## Get started manually
 
 ### Install Node
 
