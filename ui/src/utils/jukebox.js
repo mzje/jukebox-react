@@ -99,10 +99,14 @@ class Jukebox {
     this.sendMessage(payload);
   }
 
-  // setVolume(self, value) {
-  //   var payload = this.buildMessage(self, 'setvol', value);
-  //   this.sendMessage(payload);
-  // }
+  setVolume(userID, value) {
+    const payload = this.buildMessage(
+      'setvol',
+      value,
+      userID
+    );
+    this.sendMessage(payload);
+  }
 
   // playNext(self) {
   //   var payload = this.buildMessage(self, 'next');

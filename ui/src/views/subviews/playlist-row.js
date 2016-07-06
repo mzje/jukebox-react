@@ -9,15 +9,23 @@ class PlaylistRow extends React.Component {
   rowHTML(track) {
     return (
       [
-        <td className='ui-playlist-cell ui-playlist-cell__title'>{track.get('title')}</td>,
-        <td className='ui-playlist-cell ui-playlist-cell__artist'>{track.get('artist')}</td>,
-        <td className='ui-playlist-cell ui-playlist-cell__album'>{track.get('album')}</td>,
-        <td className='ui-playlist-cell ui-playlist-cell__rating'>
+        <td className="ui-playlist-cell ui-playlist-cell__title" key="title">
+          {track.get('title')}
+        </td>,
+        <td className="ui-playlist-cell ui-playlist-cell__artist" key="artist">
+          {track.get('artist')}
+        </td>,
+        <td className="ui-playlist-cell ui-playlist-cell__album" key="album">
+          {track.get('album')}
+        </td>,
+        <td className="ui-playlist-cell ui-playlist-cell__rating" key="rating">
           <span className={track.get('rating_class')}>
             {track.get('rating')}
           </span>
         </td>,
-        <td className='ui-playlist-cell ui-playlist-cell__added-by'>{track.get('added_by')}</td>
+        <td className="ui-playlist-cell ui-playlist-cell__added-by" key="added_by">
+          {track.get('added_by')}
+        </td>
       ]
     );
   }

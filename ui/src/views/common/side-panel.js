@@ -11,12 +11,12 @@ class SidePanel extends React.Component {
     userId: React.PropTypes.string
   };
 
-  volumeHTML(volume) {
-    return <Volume volume={volume} />
+  volumeHTML(volume, userId) {
+    return <Volume volume={volume} userId={userId} />
   }
 
-  playerControlsHTML(playState) {
-    return <PlayerControls playState={playState} />
+  playerControlsHTML(playState, userId) {
+    return <PlayerControls playState={playState} userId={userId} />
   }
 
   nowPlayingHTML(track, time) {
@@ -30,7 +30,7 @@ class SidePanel extends React.Component {
   render() {
     return (
       <div className="ui-side-panel">
-        {this.volumeHTML(this.props.volume)}
+        {this.volumeHTML(this.props.volume, this.props.userId)}
         {this.nowPlayingHTML(this.props.track, this.props.time)}
         {this.voteHTML(this.props.track, this.props.userId)}
         {this.playerControlsHTML(this.props.playState)}

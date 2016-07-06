@@ -1,6 +1,15 @@
 import React from 'react';
 
 class Volume extends React.Component {
+  static contextTypes = {
+    jukebox: React.PropTypes.object
+  }
+
+  static propTypes = {
+    volume: React.PropTypes.string,
+    userId: React.PropTypes.string
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -25,17 +34,23 @@ class Volume extends React.Component {
           min="0"
           max="100"
           value={volume || 0}
-          onChange={this.updateVolume}
+          onChange={this.updateSlider}
+          onMouseUp={this.updateVolume}
         />
         <i className="fa fa-volume-up"></i>
       </div>
     );
   }
 
+  // Send the final volume value to the jukebox
   updateVolume = (event) => {
-
+    this.context.jukebox.setVolume(this.props.userId, event.target.value);
   }
 
+  // Update the slider value so that the slider moves as you slide
+  updateSlider = (event) => {
+    this.setState({ volume: event.target.value });
+  }
 
   render() {
     return this.contentHTML(this.state.volume);

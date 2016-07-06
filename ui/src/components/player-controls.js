@@ -1,40 +1,81 @@
 import React from 'react';
 
 class PlayerControls extends React.Component {
-  constructor(props) {
-    super(props);
+
+  static propTypes = {
+    playState: React.PropTypes.string
+  }
+
+  previousButton() {
+    return (
+      <button className="ui-player-controls__previous">
+        <i className="fa fa-step-backward"></i>
+        <span>Previous track</span>
+      </button>
+    );
+  }
+
+  nextButton() {
+    return (
+      <button className="ui-player-controls__next">
+        <i className="fa fa-step-forward"></i>
+        <span>Next track</span>
+      </button>
+    );
+  }
+
+  pauseButton() {
+    return (
+      <button id="pause">
+        <i className="fa fa-pause"></i>
+        <span>Pause</span>
+      </button>
+    );
+  }
+
+  playButton() {
+    return (
+      <button id="play">
+        <i className="fa fa-play"></i>
+        <span>Play</span>
+      </button>
+    );
   }
 
   playOrPauseButton(playState) {
-    console.log(playState)
+    let button;
     if (playState === 'play') {
-      return(
-        <button id="pause"><i className="fa fa-pause"></i> <span>Pause</span></button>
-      )
+      button = this.pauseButton();
+    } else {
+      button = this.playButton();
     }
-    else {
-      return(
-        <button id="play"><i className="fa fa-play"></i> <span>Play</span></button>
-      )
-    }
+    return button;
+  }
+
+  clearPlaylistButton() {
+    return (
+      <button className="ui-player-controller__clear-playlist">
+        Clear playlist
+      </button>
+    );
   }
 
   contentHTML(playState) {
-    return(
-      <div class="controls">
-        <div class="player-controls">
-          <button id="previous"><i class="fa fa-step-backward"></i> <span>Previous track</span></button>
+    return (
+      <div className="ui-player-controls__container">
+        <div className="ui-player-controls">
+          {this.previousButton()}
           {this.playOrPauseButton(playState)}
-          <button id="next"><i class="fa fa-step-forward"></i> <span>Next track</span></button>
+          {this.nextButton()}
         </div>
-        <button id="clear_playlist">Clear playlist</button>
-    </div>
-    )
+        {this.clearPlaylistButton()}
+      </div>
+    );
   }
 
   render() {
-    return this.contentHTML(this.props.state)
+    return this.contentHTML(this.props.playState);
   }
 }
 
-export default PlayerControls
+export default PlayerControls;

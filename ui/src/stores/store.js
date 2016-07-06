@@ -41,11 +41,11 @@ class Store extends EventEmitter {
   }
 
   [Constants.UPDATE_VOLUME](action) {
-    this.data = this.data.set('volume', action.volume)
+    this.data = this.data.set('volume', action.volume);
   }
 
   [Constants.UPDATE_PLAYSTATE](action) {
-    this.data = this.data.set('playState', action.playState)
+    this.data = this.data.set('playState', action.playState);
   }
 
   [Constants.UPDATE_TRACK](action) {
