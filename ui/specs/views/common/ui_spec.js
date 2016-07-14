@@ -78,11 +78,15 @@ describe('Ui', () => {
       instance.state.storeData = instance.state.storeData.set('track', 'the track')
       instance.state.storeData = instance.state.storeData.set('user_id', '1')
       instance.state.storeData = instance.state.storeData.set('time', 123)
+      instance.state.storeData = instance.state.storeData.set('volume', 10)
+      instance.state.storeData = instance.state.storeData.set('playState', 'play state')
       spyOn(instance, 'sidePanelHTML');
     });
     it('calls sidePanelHTML', () => {
       instance.render();
-      expect(instance.sidePanelHTML).toHaveBeenCalledWith('the track', '1', 123);
+      expect(instance.sidePanelHTML).toHaveBeenCalledWith(
+        'the track', '1', 123, 10, 'play state'
+      );
     });
   });
 });

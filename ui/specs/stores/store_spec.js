@@ -20,6 +20,8 @@ describe('Store', () => {
         Immutable.fromJS({
           track: null,
           user_id: null,
+          volume: null,
+          playState: null,
           time: null,
           playlist: null,
           connection: {
@@ -122,6 +124,22 @@ describe('Store', () => {
     });
   });
 
+  describe('UPDATE_VOLUME', () => {
+    it('updates the volume', () => {
+      action = {volume: '1'}
+      instance[Constants.UPDATE_VOLUME](action)
+      expect(instance.currentState().get('volume')).toEqual('1');
+    });
+  });
+
+  describe('UPDATE_PLAYSTATE', () => {
+    it('updates the playState', () => {
+      action = {playState: '1'}
+      instance[Constants.UPDATE_PLAYSTATE](action)
+      expect(instance.currentState().get('playState')).toEqual('1');
+    });
+  });
+
   describe('UPDATE_USER_ID', () => {
     it('updates the user id', () => {
       action = {userID: '1'}
@@ -164,6 +182,8 @@ describe('Store', () => {
         Immutable.fromJS({
           track: null,
           user_id: null,
+          volume: null,
+          playState: null,
           time: null,
           playlist: null,
           connection: {

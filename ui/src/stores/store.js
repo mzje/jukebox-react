@@ -8,6 +8,8 @@ const CHANGE_EVENT = 'change';
 const defaultData = Immutable.fromJS({
   track: null,
   user_id: null,
+  volume: null,
+  playState: null,
   time: null,
   playlist: null,
   connection: {
@@ -36,6 +38,14 @@ class Store extends EventEmitter {
   [Constants.CONNECTION_CLOSED](action) {
     this.data = this.data.setIn(['connection', 'open'], false);
     this.data = this.data.setIn(['connection', 'closed_message'], action.message);
+  }
+
+  [Constants.UPDATE_VOLUME](action) {
+    this.data = this.data.set('volume', action.volume);
+  }
+
+  [Constants.UPDATE_PLAYSTATE](action) {
+    this.data = this.data.set('playState', action.playState);
   }
 
   [Constants.UPDATE_TRACK](action) {

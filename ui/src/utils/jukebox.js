@@ -48,12 +48,12 @@ class Jukebox {
     const rating = data.get('rating');
     const time = data.get('time');
     const playlist = data.get('playlist');
+    const playState = data.get('state');
+    const volume = data.get('volume');
 
-    // if ("state" in data) {
-    //   // self.setState({
-    //   //   playing: (data["state"] == 'play')
-    //   // })
-    // }
+    if (playState) {
+      Actions.updatePlayState(playState);
+    }
 
     if (track) {
       Actions.updateTrack(track);
@@ -63,11 +63,9 @@ class Jukebox {
       Actions.updateRating(rating);
     }
 
-    // if ("volume" in data) {
-    //   // self.setState({
-    //   //   volume: data["volume"]
-    //   // })
-    // }
+    if (volume) {
+      Actions.updateVolume(volume);
+    }
 
     if (playlist) {
       Actions.updatePlaylist(Immutable.fromJS(playlist));
@@ -101,10 +99,14 @@ class Jukebox {
     this.sendMessage(payload);
   }
 
-  // setVolume(self, value) {
-  //   var payload = this.buildMessage(self, 'setvol', value);
-  //   this.sendMessage(payload);
-  // }
+  setVolume(userID, value) {
+    const payload = this.buildMessage(
+      'setvol',
+      value,
+      userID
+    );
+    this.sendMessage(payload);
+  }
 
   // playNext(self) {
   //   var payload = this.buildMessage(self, 'next');
