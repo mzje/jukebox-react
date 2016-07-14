@@ -134,6 +134,8 @@ describe('Jukebox', () => {
       instance = new Jukebox();
       spyOn(Actions, 'updateTrack');
       spyOn(Actions, 'updateTime');
+      spyOn(Actions, 'updateRating');
+      spyOn(Actions, 'updatePlaylist');
     });
 
     describe('when track data is present', () => {
