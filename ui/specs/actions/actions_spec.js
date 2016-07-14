@@ -82,4 +82,30 @@ describe('Actions', () => {
       );
     });
   });
+
+  describe('updateRating', () => {
+    it('dispatches UPDATE_RATING with the rating', () => {
+      let rating = '5';
+      Actions.updateRating(rating)
+      expect(Dispatcher.dispatch).toHaveBeenCalledWith(
+        {
+          actionType: Constants.UPDATE_RATING,
+          rating: rating
+        }
+      );
+    });
+  });
+
+  describe('updatePlaylist', () => {
+    it('dispatches UPDATE_PLAYLIST with the playlist', () => {
+      let playlist = 'playlist';
+      Actions.updatePlaylist(playlist)
+      expect(Dispatcher.dispatch).toHaveBeenCalledWith(
+        {
+          actionType: Constants.UPDATE_PLAYLIST,
+          playlist: playlist
+        }
+      );
+    });
+  });
 })
