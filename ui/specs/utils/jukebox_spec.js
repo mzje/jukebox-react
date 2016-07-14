@@ -136,6 +136,17 @@ describe('Jukebox', () => {
       spyOn(Actions, 'updateTime');
       spyOn(Actions, 'updateRating');
       spyOn(Actions, 'updatePlaylist');
+      spyOn(Actions, 'updatePlayState');
+      spyOn(Actions, 'updateVolume');
+    });
+
+    describe('when playState is present', () => {
+      it('calls the updatePlayState action', () => {
+        data = '{"state": "foo"}'
+        message = {data: data}
+        instance.handleMessage(message);
+        expect(Actions.updatePlayState).toHaveBeenCalledWith('foo');
+      });
     });
 
     describe('when track data is present', () => {
@@ -162,6 +173,15 @@ describe('Jukebox', () => {
         message = {data: data}
         instance.handleMessage(message);
         expect(Actions.updateRating).toHaveBeenCalledWith('1');
+      });
+    });
+
+    describe('when volume is present', () => {
+      it('calls the updateVolume action', () => {
+        data = '{"volume": "50"}'
+        message = {data: data}
+        instance.handleMessage(message);
+        expect(Actions.updateVolume).toHaveBeenCalledWith('50');
       });
     });
 
@@ -221,7 +241,7 @@ describe('Jukebox', () => {
   });
 
   describe('vote', () => {
-    it('calls sendMessage with the payload', () => {
+    it('calls sendMessage with the vote payload', () => {
       spyOn(instance, 'sendMessage');
       let userID = '1';
       let track = {file: 'filename'};
@@ -233,4 +253,17 @@ describe('Jukebox', () => {
       })
     });
   });
+
+  describe('setVolume', () => {
+    it('calls sendMessage with the volume payload', () => {
+      spyOn(instance, 'sendMessage');
+      let userID = '2';
+      let value = 50;
+      instance.setVolume(userID, value);
+      expect(instance.sendMessage).toHaveBeenCalledWith({
+        setvol: value,
+        user_id: 2
+      });
+    });
+  })
 })
