@@ -9,7 +9,7 @@ class PlaylistRow extends React.Component {
 
   render() {
     return (
-      <div className='ui-playlist'>
+      <div className="ui-playlist">
         { this.rowHTML(this.props.track) }
       </div>
     );
