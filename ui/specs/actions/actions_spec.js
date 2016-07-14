@@ -70,6 +70,32 @@ describe('Actions', () => {
     });
   });
 
+  describe('updateVolume', () => {
+    it('dispatches UPDATE_VOLUME with the volume', () => {
+      let volume = '50';
+      Actions.updateVolume(volume)
+      expect(Dispatcher.dispatch).toHaveBeenCalledWith(
+        {
+          actionType: Constants.UPDATE_VOLUME,
+          volume: volume
+        }
+      );
+    });
+  });
+
+  describe('updatePlayState', () => {
+    it('dispatches UPDATE_PLAYSTATE with the playState', () => {
+      let playState = 'foo';
+      Actions.updatePlayState(playState)
+      expect(Dispatcher.dispatch).toHaveBeenCalledWith(
+        {
+          actionType: Constants.UPDATE_PLAYSTATE,
+          playState: playState
+        }
+      );
+    });
+  });
+
   describe('updateTime', () => {
     it('dispatches UPDATE_TIME with the track', () => {
       let time = '1';
