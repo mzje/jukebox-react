@@ -28,14 +28,14 @@ describe('Vote', () => {
     it('prevents the default event and calls vote on the jukebox', () => {
       let ui = TestUtils.renderIntoDocument(
         <Wrapper>
-          <Vote track={'the track'} userId={'5'} />
+          <Vote track={'the track'} />
         </Wrapper>
       );
       instance = TestUtils.findRenderedComponentWithType(ui, Vote);
       spyOn(instance.context.jukebox, 'vote')
       let event = jasmine.createSpyObj('event', ['preventDefault']);
       instance.voteUp(event);
-      expect(instance.context.jukebox.vote).toHaveBeenCalledWith('5', 'the track', 1);
+      expect(instance.context.jukebox.vote).toHaveBeenCalledWith('the track', 1);
     });
   });
 
@@ -55,18 +55,23 @@ describe('Vote', () => {
   });
 
   describe('render', () => {
-    describe('when track and userId', () => {
+    let ui;
+    describe('when track and userID', () => {
       it('calls voteHTML', () => {
-        instance = TestUtils.renderIntoDocument(
-          <Vote track={'track'} userId={'1'} />
+        ui = TestUtils.renderIntoDocument(
+          <Wrapper>
+            <Vote track={'track'} />
+          </Wrapper>
         );
+        instance = TestUtils.findRenderedComponentWithType(ui, Vote);
+        jukebox.userID = '1'
         spyOn(instance, 'voteHTML')
         instance.render()
         expect(instance.voteHTML).toHaveBeenCalled();
       });
     });
 
-    describe('when track but not userId', () => {
+    describe('when track but not userID', () => {
       it('does not call voteHTML', () => {
         instance = TestUtils.renderIntoDocument(
           <Vote track={'track'} />
@@ -77,11 +82,15 @@ describe('Vote', () => {
       });
     });
 
-    describe('when userId but not track', () => {
+    describe('when userID but not track', () => {
       it('does not call voteHTML', () => {
-        instance = TestUtils.renderIntoDocument(
-          <Vote userId={'1'} />
+        ui = TestUtils.renderIntoDocument(
+          <Wrapper>
+            <Vote />
+          </Wrapper>
         );
+        instance = TestUtils.findRenderedComponentWithType(ui, Vote);
+        jukebox.userID = 1
         spyOn(instance, 'voteHTML')
         instance.render()
         expect(instance.voteHTML).not.toHaveBeenCalled();

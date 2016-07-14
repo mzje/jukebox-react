@@ -1,9 +1,13 @@
 import React from 'react';
 
 class PlayerControls extends React.Component {
+  static contextTypes = {
+    jukebox: React.PropTypes.object
+  }
 
   static propTypes = {
-    playState: React.PropTypes.string
+    playState: React.PropTypes.string,
+    userId: React.PropTypes.string
   }
 
   previousButton() {
@@ -26,7 +30,7 @@ class PlayerControls extends React.Component {
 
   pauseButton() {
     return (
-      <button className="ui-player-controls__pause">
+      <button className="ui-player-controls__pause" onClick={this.pause}>
         <i className="fa fa-pause"></i>
         <span>Pause</span>
       </button>
@@ -35,11 +39,19 @@ class PlayerControls extends React.Component {
 
   playButton() {
     return (
-      <button className="ui-player-controls__play">
+      <button className="ui-player-controls__play" onClick={this.play}>
         <i className="fa fa-play"></i>
         <span>Play</span>
       </button>
     );
+  }
+
+  play = () => {
+    this.context.jukebox.play(this.props.userId);
+  }
+
+  pause = () => {
+    this.context.jukebox.pause(this.props.userId);
   }
 
   playOrPauseButton(playState) {

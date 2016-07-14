@@ -48,7 +48,7 @@ describe('Volume', () => {
     it('calls setVolume on the jukebox context', () => {
       let ui = TestUtils.renderIntoDocument(
         <Wrapper>
-          <Volume volume={'1'} userId={'1'} />
+          <Volume volume={'1'} />
         </Wrapper>
       );
       instance = TestUtils.findRenderedComponentWithType(ui, Volume);
@@ -56,7 +56,7 @@ describe('Volume', () => {
       let event = { target: { value: 50 } }
       instance.updateVolume(event);
       expect(instance.context.jukebox.setVolume).toHaveBeenCalledWith(
-        '1', 50
+        50
       );
     });
   });

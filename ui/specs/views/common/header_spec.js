@@ -30,7 +30,7 @@ describe('Header', () => {
     it('returns an instance of DebugPanel', () => {
       instance = new Header();
       let connection = Immutable.fromJS(
-        {open: true, error_message: 'error', closed_message: 'closed' }
+        {open: true, error_message: {message:'error'}, closed_message: {message:'closed'} }
       );
       let debugPanelHTML = TestUtils.renderIntoDocument(
         instance.debugPanelHTML(connection)
@@ -45,7 +45,7 @@ describe('Header', () => {
     let connection
     beforeEach(() => {
       connection = Immutable.fromJS(
-        {open: true, error_message: 'error', closed_message: 'closed' }
+        {open: true, error_message: {message:'error'}, closed_message: {message:'closed'} }
       )
       instance = TestUtils.renderIntoDocument(
         <Header connection={connection} />

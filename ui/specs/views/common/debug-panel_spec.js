@@ -34,7 +34,7 @@ describe('DebugPanel', () => {
     });
     describe('when there is an error', () => {
       it('returns the error message', () => {
-        let message = { message: 'Is Foo' }
+        let message = Immutable.fromJS({ message: 'Is Foo' });
         let errorHTML = TestUtils.renderIntoDocument(
           instance.errorHTML(message)
         )
@@ -54,7 +54,7 @@ describe('DebugPanel', () => {
     });
     describe('when there is not a message', () => {
       it('returns the closed message', () => {
-        let message = { message: 'it is' }
+        let message = Immutable.fromJS({ message: 'it is' });
         let closedHTML = TestUtils.renderIntoDocument(
           instance.closedHTML(message)
         )

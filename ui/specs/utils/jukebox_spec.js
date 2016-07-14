@@ -1,5 +1,6 @@
 import Jukebox from './../../src/utils/jukebox';
 import Actions from './../../src/actions/actions';
+import Immutable from 'immutable';
 
 describe('Jukebox', () => {
   let instance;
@@ -102,20 +103,24 @@ describe('Jukebox', () => {
   describe('handleClose', () => {
     it('calls connectionClosed', () => {
       instance = new Jukebox();
-      let message = 'message';
+      let message = '{"message":"message"}';
       spyOn(Actions, 'connectionClosed');
       instance.handleClose(message);
-      expect(Actions.connectionClosed).toHaveBeenCalledWith(message);
+      expect(Actions.connectionClosed).toHaveBeenCalledWith(
+        Immutable.fromJS(JSON.parse(message))
+      );
     });
   });
 
   describe('handleError', () => {
     it('calls connectionError', () => {
       instance = new Jukebox();
-      let message = 'message';
+      let message = '{"message":"message"}';
       spyOn(Actions, 'connectionError');
       instance.handleError(message);
-      expect(Actions.connectionError).toHaveBeenCalledWith(message);
+      expect(Actions.connectionError).toHaveBeenCalledWith(
+        Immutable.fromJS(JSON.parse(message))
+      );
     });
   });
 
@@ -215,7 +220,8 @@ describe('Jukebox', () => {
     });
     describe('when the user id is provided', () => {
       it('returns a payload with the user id included', () => {
-        payload = instance.buildMessage('foo', 'bar', '1')
+        instance.userID = 1
+        payload = instance.buildMessage('foo', 'bar')
         expect(payload).toEqual({ foo: 'bar', user_id: 1 })
       });
     });
@@ -242,28 +248,49 @@ describe('Jukebox', () => {
 
   describe('vote', () => {
     it('calls sendMessage with the vote payload', () => {
+      instance = new Jukebox();
       spyOn(instance, 'sendMessage');
-      let userID = '1';
-      let track = {file: 'filename'};
+      let track = Immutable.fromJS({file: 'filename'});
       let state = 'state';
-      instance.vote(userID, track, state)
+      instance.vote(track, state)
       expect(instance.sendMessage).toHaveBeenCalledWith({
-        vote: {state: state, filename: 'filename'},
-        user_id: 1
+        vote: {state: state, filename: 'filename'}
       })
     });
   });
 
   describe('setVolume', () => {
     it('calls sendMessage with the volume payload', () => {
+      instance = new Jukebox();
       spyOn(instance, 'sendMessage');
-      let userID = '2';
       let value = 50;
-      instance.setVolume(userID, value);
+      instance.setVolume(value);
       expect(instance.sendMessage).toHaveBeenCalledWith({
-        setvol: value,
-        user_id: 2
+        setvol: value
       });
     });
-  })
+  });
+
+  describe('play', () => {
+    it('calls sendMessage with the play payload', () => {
+      instance = new Jukebox();
+      spyOn(instance, 'sendMessage');
+      instance.play();
+      expect(instance.sendMessage).toHaveBeenCalledWith({
+        play: ''
+      });
+    });
+  });
+
+  describe('pause', () => {
+    it('calls sendMessage with the pause payload', () => {
+      instance = new Jukebox();
+      spyOn(instance, 'sendMessage');
+      instance.pause();
+      expect(instance.sendMessage).toHaveBeenCalledWith({
+        pause: ''
+      });
+    });
+  });
+
 })
