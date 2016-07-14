@@ -134,6 +134,8 @@ describe('Jukebox', () => {
       instance = new Jukebox();
       spyOn(Actions, 'updateTrack');
       spyOn(Actions, 'updateTime');
+      spyOn(Actions, 'updateRating');
+      spyOn(Actions, 'updatePlaylist');
     });
 
     describe('when track data is present', () => {
@@ -151,6 +153,24 @@ describe('Jukebox', () => {
         message = {data: data}
         instance.handleMessage(message);
         expect(Actions.updateTime).toHaveBeenCalledWith('1');
+      });
+    });
+
+    describe('when rating data is present', () => {
+      it('calls the updateRating action', () => {
+        data = '{"rating": "1"}'
+        message = {data: data}
+        instance.handleMessage(message);
+        expect(Actions.updateRating).toHaveBeenCalledWith('1');
+      });
+    });
+
+    describe('when playlist data is present', () => {
+      it('calls the updateRating action', () => {
+        data = '{"playlist": "foo"}'
+        message = {data: data}
+        instance.handleMessage(message);
+        expect(Actions.updatePlaylist).toHaveBeenCalledWith('foo');
       });
     });
 

@@ -140,6 +140,24 @@ describe('Store', () => {
     });
   });
 
+  describe('UPDATE_RATING', () => {
+    it('updates the rating and rating_class', () => {
+      instance[Constants.UPDATE_TRACK]({track:Immutable.fromJS({})})
+      action = {rating: Immutable.fromJS({rating: '1', rating_class:'foo'})}
+      instance[Constants.UPDATE_RATING](action)
+      expect(instance.currentState().getIn(['track', 'rating'])).toEqual('1');
+      expect(instance.currentState().getIn(['track', 'rating_class'])).toEqual('foo');
+    });
+  });
+
+  describe('UPDATE_PLAYLIST', () => {
+    it('updates the playlist', () => {
+      action = {playlist: 'foo'}
+      instance[Constants.UPDATE_PLAYLIST](action)
+      expect(instance.currentState().get('playlist')).toEqual('foo');
+    });
+  });
+
   describe('reset', () => {
     it('resets the data', () => {
       instance[Constants.UPDATE_TRACK]({track: 'foo'})
