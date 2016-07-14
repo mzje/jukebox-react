@@ -150,15 +150,17 @@ gulp.task('watchTask', () => {
   gulp.watch(paths.srcLint, ['lint']);
 });
 
-gulp.task('test_once', function(cb) {
+gulp.task('karma_once', function(cb) {
+  process.env.NODE_ENV = 'test';
 	runKarma('karma.config.js', {
 		autoWatch: false,
 		singleRun: true
 	}, cb);
 });
-gulp.task('lint_and_test_once', ['lint', 'test_once']);
+gulp.task('lint_and_test_once', ['lint', 'karma_once']);
 
-gulp.task('test', function(cb) {
+gulp.task('karma', function(cb) {
+  process.env.NODE_ENV = 'test';
 	runKarma('karma.config.js', {
 		autoWatch: true,
 		singleRun: false
@@ -166,7 +168,7 @@ gulp.task('test', function(cb) {
 });
 
 gulp.task('watch', cb => {
-  runSequence('clean', ['browserSync', 'watchTask', 'watchify', 'styles', 'lint', 'images'], cb);
+  runSequence('clean', ['browserSync', 'watchTask', 'watchify', 'styles', 'images'], cb);
 });
 
 gulp.task('build', cb => {
@@ -174,4 +176,6 @@ gulp.task('build', cb => {
   runSequence('clean', ['browserify', 'styles', 'htmlReplace', 'images'], cb);
 });
 
-gulp.task('default', ['test']);
+gulp.task('default', ['watch']);
+
+gulp.task('test', ['watch', 'karma', 'lint'])

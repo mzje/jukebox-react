@@ -42,7 +42,7 @@ class Playlist extends React.Component {
     let html;
     if (playlist) {
       html = (
-        <table className='ui-playlist-table'>
+        <table className="ui-playlist-table">
           <tbody>
             {this.rowsHTML(playlist, currentTrack)}
           </tbody>
