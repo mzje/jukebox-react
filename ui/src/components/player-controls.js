@@ -26,7 +26,7 @@ class PlayerControls extends React.Component {
 
   pauseButton() {
     return (
-      <button id="pause">
+      <button className="ui-player-controls__pause">
         <i className="fa fa-pause"></i>
         <span>Pause</span>
       </button>
@@ -35,7 +35,7 @@ class PlayerControls extends React.Component {
 
   playButton() {
     return (
-      <button id="play">
+      <button className="ui-player-controls__play">
         <i className="fa fa-play"></i>
         <span>Play</span>
       </button>

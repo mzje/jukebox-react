@@ -18,7 +18,7 @@ class Volume extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.volume !== null) {
+    if (nextProps.volume) {
       this.state.volume = nextProps.volume;
     }
   }
