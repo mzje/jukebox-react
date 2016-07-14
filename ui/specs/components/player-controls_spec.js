@@ -5,7 +5,20 @@ import PlayerControls from './../../src/components/player-controls';
 describe('PlayerControls', () => {
   let instance;
 
+  let jukebox = {
+    play: function() {},
+    pause: function() {}
+  }
+
   let Wrapper = React.createClass({
+    childContextTypes: {
+      jukebox: React.PropTypes.object
+    },
+    getChildContext: function() {
+      return {
+        jukebox: jukebox
+      }
+    },
     render: function() {
       return (<div>{this.props.children}</div>);
     }
@@ -14,11 +27,56 @@ describe('PlayerControls', () => {
   describe('pauseButton', () => {
     it('returns a pause button', () => {
       instance = new PlayerControls();
+      spyOn(instance, 'pause');
       let html = TestUtils.renderIntoDocument(
         <Wrapper>{instance.pauseButton()}</Wrapper>
       )
       let button = TestUtils.findRenderedDOMComponentWithTag(html, 'button');
       expect(button).toBeDefined();
+      TestUtils.Simulate.click(button);
+      expect(instance.pause).toHaveBeenCalled();
+    });
+  });
+
+  describe('playButton', () => {
+    it('returns a play button', () => {
+      instance = new PlayerControls();
+      spyOn(instance, 'play');
+      let html = TestUtils.renderIntoDocument(
+        <Wrapper>{instance.playButton()}</Wrapper>
+      )
+      let button = TestUtils.findRenderedDOMComponentWithTag(html, 'button');
+      expect(button).toBeDefined();
+      TestUtils.Simulate.click(button);
+      expect(instance.play).toHaveBeenCalled();
+    });
+  });
+
+  describe('play', () => {
+    it('calls play on the jukebox', () => {
+      let ui = TestUtils.renderIntoDocument(
+        <Wrapper>
+          <PlayerControls userId={'5'} />
+        </Wrapper>
+      );
+      instance = TestUtils.findRenderedComponentWithType(ui, PlayerControls);
+      spyOn(instance.context.jukebox, 'play')
+      instance.play();
+      expect(instance.context.jukebox.play).toHaveBeenCalledWith('5');
+    });
+  });
+
+  describe('pause', () => {
+    it('calls pause on the jukebox', () => {
+      let ui = TestUtils.renderIntoDocument(
+        <Wrapper>
+          <PlayerControls userId={'5'} />
+        </Wrapper>
+      );
+      instance = TestUtils.findRenderedComponentWithType(ui, PlayerControls);
+      spyOn(instance.context.jukebox, 'pause')
+      instance.pause();
+      expect(instance.context.jukebox.pause).toHaveBeenCalledWith('5');
     });
   });
 

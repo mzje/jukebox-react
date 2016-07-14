@@ -35,11 +35,11 @@ class Jukebox {
   }
 
   handleError(message) {
-    Actions.connectionError(message);
+    Actions.connectionError(Immutable.fromJS(JSON.parse(message)));
   }
 
   handleClose(message) {
-    Actions.connectionClosed(message);
+    Actions.connectionClosed(Immutable.fromJS(JSON.parse(message)));
   }
 
   handleMessage(message) {
@@ -76,11 +76,11 @@ class Jukebox {
     }
   }
 
-  buildMessage(command, value, userID) {
+  buildMessage(command, value) {
     const payload = {};
     payload[command] = (value || '');
-    if (userID) {
-      payload.user_id = parseInt(userID, 10);
+    if (this.userID) {
+      payload.user_id = parseInt(this.userID, 10);
     }
     return payload;
   }
@@ -90,20 +90,18 @@ class Jukebox {
     this.openConnection(); // TODO figure out why the server sometimes disconnects the client!
   }
 
-  vote(userID, track, state) {
+  vote(track, state) {
     const payload = this.buildMessage(
       'vote',
-      { state: state, filename: track.file },
-      userID
+      { state: state, filename: track.get('file') }
     );
     this.sendMessage(payload);
   }
 
-  setVolume(userID, value) {
+  setVolume(value) {
     const payload = this.buildMessage(
       'setvol',
-      value,
-      userID
+      value
     );
     this.sendMessage(payload);
   }
@@ -118,14 +116,13 @@ class Jukebox {
   //   this.sendMessage(payload);
   // }
 
-  // playPause(self) {
-  //   if(self.state.playing){
-  //     var payload = this.buildMessage(self, 'pause');
-  //   } else {
-  //     var payload = this.buildMessage(self, 'play');
-  //   }
-  //   this.sendMessage(payload);
-  // }
+  play() {
+    this.sendMessage(this.buildMessage('play'));
+  }
+
+  pause() {
+    this.sendMessage(this.buildMessage('pause'));
+  }
 }
 
 module.exports = Jukebox;

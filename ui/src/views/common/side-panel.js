@@ -7,32 +7,31 @@ import PlayerControls from './../../components/player-controls';
 class SidePanel extends React.Component {
   static propTypes = {
     track: React.PropTypes.object,
-    time: React.PropTypes.string,
-    userId: React.PropTypes.string
+    time: React.PropTypes.string
   };
 
-  volumeHTML(volume, userId) {
-    return <Volume volume={volume} userId={userId} />
+  volumeHTML(volume) {
+    return <Volume volume={volume} />
   }
 
-  playerControlsHTML(playState, userId) {
-    return <PlayerControls playState={playState} userId={userId} />
+  playerControlsHTML(playState) {
+    return <PlayerControls playState={playState} />
   }
 
   nowPlayingHTML(track, time) {
     return <NowPlaying track={track} time={time} />;
   }
 
-  voteHTML(track, userId) {
-    return <Vote track={track} userId={userId} />;
+  voteHTML(track) {
+    return <Vote track={track} />;
   }
 
   render() {
     return (
       <div className="ui-side-panel">
-        {this.volumeHTML(this.props.volume, this.props.userId)}
+        {this.volumeHTML(this.props.volume)}
         {this.nowPlayingHTML(this.props.track, this.props.time)}
-        {this.voteHTML(this.props.track, this.props.userId)}
+        {this.voteHTML(this.props.track)}
         {this.playerControlsHTML(this.props.playState)}
       </div>
     );

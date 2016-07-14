@@ -22,7 +22,7 @@ describe('SidePanel', () => {
 
   describe('render', () => {
     beforeEach(() => {
-      instance = new SidePanel({track:'the track', userId: '1', time: 123})
+      instance = new SidePanel({track:'the track', time: 123})
       spyOn(instance, 'nowPlayingHTML');
       spyOn(instance, 'voteHTML');
     });
@@ -32,7 +32,7 @@ describe('SidePanel', () => {
     });
     it('calls voteHTML', () => {
       instance.render();
-      expect(instance.voteHTML).toHaveBeenCalledWith('the track', '1');
+      expect(instance.voteHTML).toHaveBeenCalledWith('the track');
     });
   });
 });

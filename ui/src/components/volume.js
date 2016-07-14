@@ -6,8 +6,7 @@ class Volume extends React.Component {
   }
 
   static propTypes = {
-    volume: React.PropTypes.string,
-    userId: React.PropTypes.string
+    volume: React.PropTypes.string
   }
 
   constructor(props) {
@@ -44,7 +43,7 @@ class Volume extends React.Component {
 
   // Send the final volume value to the jukebox
   updateVolume = (event) => {
-    this.context.jukebox.setVolume(this.props.userId, event.target.value);
+    this.context.jukebox.setVolume(event.target.value);
   }
 
   // Update the slider value so that the slider moves as you slide

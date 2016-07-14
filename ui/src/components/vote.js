@@ -2,7 +2,6 @@ import React from 'react';
 
 class Vote extends React.Component {
   static propTypes = {
-    userId: React.PropTypes.string,
     track: React.PropTypes.object
   }
 
@@ -12,7 +11,7 @@ class Vote extends React.Component {
 
   voteUp = (event) => {
     event.preventDefault();
-    this.context.jukebox.vote(this.props.userId, this.props.track, 1);
+    this.context.jukebox.vote(this.props.track, 1);
   }
 
   voteHTML() {
@@ -21,9 +20,17 @@ class Vote extends React.Component {
     );
   }
 
+  userID() {
+    let userID = null;
+    if (this.context.jukebox) {
+      userID = this.context.jukebox.userID;
+    }
+    return userID;
+  }
+
   render() {
     let html = null;
-    if (this.props.track && this.props.userId) {
+    if (this.props.track && this.userID()) {
       html = this.voteHTML();
     }
     return html;

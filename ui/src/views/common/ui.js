@@ -36,9 +36,9 @@ class UI extends React.Component {
     this.state.store.removeChangeListener(this._onChange);
   }
 
-  sidePanelHTML(track, userId, time, volume, playState) {
+  sidePanelHTML(track, time, volume, playState) {
     return(
-      <SidePanel track={track} userId={userId} time={time} volume={volume} playState={playState} />
+      <SidePanel track={track} time={time} volume={volume} playState={playState} />
     )
   }
 
@@ -57,14 +57,14 @@ class UI extends React.Component {
 
   render() {
     const track = this.state.storeData.get('track');
-    const userId = this.state.storeData.get('user_id');
+    this.state.jukebox.userID = this.state.storeData.get('user_id');
     const time = this.state.storeData.get('time');
     const connection = this.state.storeData.get('connection');
     const volume = this.state.storeData.get('volume');
     const playState = this.state.storeData.get('playState');
     return (
       <div className="ui-container">
-        {this.sidePanelHTML(track, userId, time, volume, playState)}
+        {this.sidePanelHTML(track, time, volume, playState)}
         <main className="ui-content">
           {this.headerHTML(connection)}
           {this.props.children}

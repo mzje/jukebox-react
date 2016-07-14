@@ -18,7 +18,7 @@ class DebugPanel extends React.Component {
   errorHTML(errorMessage) {
     let html;
     if (errorMessage) {
-      html = <p>Error {errorMessage.message}</p>;
+      html = <p>Error {errorMessage.get('message')}</p>;
     }
     return html;
   }
@@ -26,7 +26,7 @@ class DebugPanel extends React.Component {
   closedHTML(closedMessage) {
     let html;
     if (closedMessage) {
-      html = <p>Closed {closedMessage.message}</p>;
+      html = <p>Closed {closedMessage.get('message')}</p>;
     }
     return html;
   }

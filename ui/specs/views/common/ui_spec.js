@@ -51,13 +51,11 @@ describe('Ui', () => {
     it('renders a SidePanel component', () => {
       instance = new Ui();
       let track = Immutable.fromJS({});
-      let userId = 'userId'
       let panelHTML = TestUtils.renderIntoDocument(
-        instance.sidePanelHTML(track, userId)
+        instance.sidePanelHTML(track)
       );
       let sidePanel = TestUtils.findRenderedComponentWithType(panelHTML, SidePanel)
       expect(sidePanel.props.track).toEqual(track);
-      expect(sidePanel.props.userId).toEqual(userId);
     });
   });
 
@@ -76,7 +74,6 @@ describe('Ui', () => {
     beforeEach(() => {
       instance =  TestUtils.renderIntoDocument(<Ui />);
       instance.state.storeData = instance.state.storeData.set('track', 'the track')
-      instance.state.storeData = instance.state.storeData.set('user_id', '1')
       instance.state.storeData = instance.state.storeData.set('time', 123)
       instance.state.storeData = instance.state.storeData.set('volume', 10)
       instance.state.storeData = instance.state.storeData.set('playState', 'play state')
@@ -85,7 +82,7 @@ describe('Ui', () => {
     it('calls sidePanelHTML', () => {
       instance.render();
       expect(instance.sidePanelHTML).toHaveBeenCalledWith(
-        'the track', '1', 123, 10, 'play state'
+        'the track', 123, 10, 'play state'
       );
     });
   });
