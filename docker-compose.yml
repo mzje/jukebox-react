@@ -11,6 +11,7 @@ services:
     ports:
       - "8081:8081"
     command: npm start
+    tty: true
   # mopidy:
   #   image: mopidy:v1
   #   build:
