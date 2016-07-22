@@ -134,4 +134,17 @@ describe('Actions', () => {
       );
     });
   });
+
+  describe('removePlaylistTrack', () => {
+    it('dispatches REMOVE_PLAYLIST_TRACK with the track', () => {
+      let track = 'track';
+      Actions.removePlaylistTrack(track);
+      expect(Dispatcher.dispatch).toHaveBeenCalledWith(
+        {
+          actionType: Constants.REMOVE_PLAYLIST_TRACK,
+          track: 'track'
+        }
+      );
+    });
+  });
 })

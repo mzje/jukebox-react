@@ -174,6 +174,20 @@ describe('Store', () => {
     });
   });
 
+  describe('REMOVE_PLAYLIST_TRACK', () => {
+    it('removes the track from the playlist', () => {
+      let playlist = Immutable.fromJS({
+        tracks: Immutable.fromJS({0: 'foo', 1: 'bar'})
+      });
+      instance.data = instance.data.set('playlist', playlist);
+      action = {track:Immutable.fromJS({pos: '1'})};
+      instance[Constants.REMOVE_PLAYLIST_TRACK](action);
+      expect(instance.currentState().getIn(['playlist', 'tracks']).toJS()).toEqual(
+        { "0": "foo" }
+      );
+    })
+  });
+
   describe('reset', () => {
     it('resets the data', () => {
       instance[Constants.UPDATE_TRACK]({track: 'foo'})

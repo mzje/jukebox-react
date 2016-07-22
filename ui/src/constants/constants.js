@@ -8,5 +8,6 @@ export default {
   UPDATE_RATING: 'updateRating',
   UPDATE_PLAYLIST: 'updatePlaylist',
   UPDATE_VOLUME: 'updateVolume',
-  UPDATE_PLAYSTATE: 'updatePlayState'
+  UPDATE_PLAYSTATE: 'updatePlayState',
+  REMOVE_PLAYLIST_TRACK: 'removePlaylistTrack'
 };

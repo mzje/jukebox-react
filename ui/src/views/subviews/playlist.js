@@ -1,8 +1,13 @@
 import React from 'react';
 import Store from './../../stores/store';
+import Actions from '../../actions/actions';
 import PlaylistRow from './playlist-row';
 
 class Playlist extends React.Component {
+  static contextTypes = {
+    jukebox: React.PropTypes.object
+  }
+
   constructor(props) {
     super(props);
     const store = Store;
@@ -33,9 +38,21 @@ class Playlist extends React.Component {
     return playlist.get('tracks').map(this.rowHTML(currentTrack));
   }
 
+  removePlaylistTrack = (track) => {
+    Actions.removePlaylistTrack(track);
+    this.context.jukebox.removePlaylistTrack(track.get('song_id'));
+  }
+
   rowHTML = (currentTrack) => (track) => {
     let current = currentTrack.get('filename') === track.get('filename');
-    return <PlaylistRow track={track} current={current} key={`playlist-row-${track.get('dbid')}`} />;
+    return (
+      <PlaylistRow
+        track={track}
+        current={current}
+        removePlaylistTrack={this.removePlaylistTrack}
+        key={`playlist-row-${track.get('dbid')}`}
+      />
+    );
   };
 
   playlistHTML(playlist, currentTrack) {

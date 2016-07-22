@@ -123,6 +123,10 @@ class Jukebox {
     this.sendMessage(this.buildMessage('pause'));
   }
 
+  removePlaylistTrack(songId) {
+    this.sendMessage(this.buildMessage('deleteid', songId));
+  }
+
   bulkAdd(tracks) {
     this.sendMessage(
       this.buildMessage(
