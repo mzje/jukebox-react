@@ -7,7 +7,9 @@ describe('PlayerControls', () => {
 
   let jukebox = {
     play: function() {},
-    pause: function() {}
+    pause: function() {},
+    next: function() {},
+    previous: function() {}
   }
 
   let Wrapper = React.createClass({
@@ -56,13 +58,13 @@ describe('PlayerControls', () => {
     it('calls play on the jukebox', () => {
       let ui = TestUtils.renderIntoDocument(
         <Wrapper>
-          <PlayerControls userId={'5'} />
+          <PlayerControls />
         </Wrapper>
       );
       instance = TestUtils.findRenderedComponentWithType(ui, PlayerControls);
       spyOn(instance.context.jukebox, 'play')
       instance.play();
-      expect(instance.context.jukebox.play).toHaveBeenCalledWith('5');
+      expect(instance.context.jukebox.play).toHaveBeenCalled();
     });
   });
 
@@ -70,13 +72,41 @@ describe('PlayerControls', () => {
     it('calls pause on the jukebox', () => {
       let ui = TestUtils.renderIntoDocument(
         <Wrapper>
-          <PlayerControls userId={'5'} />
+          <PlayerControls />
         </Wrapper>
       );
       instance = TestUtils.findRenderedComponentWithType(ui, PlayerControls);
       spyOn(instance.context.jukebox, 'pause')
       instance.pause();
-      expect(instance.context.jukebox.pause).toHaveBeenCalledWith('5');
+      expect(instance.context.jukebox.pause).toHaveBeenCalled();
+    });
+  });
+
+  describe('next', () => {
+    it('calls next on the jukebox', () => {
+      let ui = TestUtils.renderIntoDocument(
+        <Wrapper>
+          <PlayerControls />
+        </Wrapper>
+      );
+      instance = TestUtils.findRenderedComponentWithType(ui, PlayerControls);
+      spyOn(instance.context.jukebox, 'next')
+      instance.next();
+      expect(instance.context.jukebox.next).toHaveBeenCalled();
+    });
+  });
+
+  describe('previous', () => {
+    it('calls previous on the jukebox', () => {
+      let ui = TestUtils.renderIntoDocument(
+        <Wrapper>
+          <PlayerControls />
+        </Wrapper>
+      );
+      instance = TestUtils.findRenderedComponentWithType(ui, PlayerControls);
+      spyOn(instance.context.jukebox, 'previous')
+      instance.previous();
+      expect(instance.context.jukebox.previous).toHaveBeenCalled();
     });
   });
 

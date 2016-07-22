@@ -106,15 +106,13 @@ class Jukebox {
     this.sendMessage(payload);
   }
 
-  // playNext(self) {
-  //   var payload = this.buildMessage(self, 'next');
-  //   this.sendMessage(payload);
-  // }
+  next() {
+    this.sendMessage(this.buildMessage('next'));
+  }
 
-  // playPrevious(self) {
-  //   var payload = this.buildMessage(self, 'previous');
-  //   this.sendMessage(payload);
-  // }
+  previous() {
+    this.sendMessage(this.buildMessage('previous'));
+  }
 
   play() {
     this.sendMessage(this.buildMessage('play'));

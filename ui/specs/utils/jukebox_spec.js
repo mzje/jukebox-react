@@ -293,4 +293,26 @@ describe('Jukebox', () => {
     });
   });
 
+  describe('next', () => {
+    it('calls sendMessage with the next payload', () => {
+      instance = new Jukebox();
+      spyOn(instance, 'sendMessage');
+      instance.next();
+      expect(instance.sendMessage).toHaveBeenCalledWith({
+        next: ''
+      });
+    });
+  });
+
+  describe('previous', () => {
+    it('calls sendMessage with the previous payload', () => {
+      instance = new Jukebox();
+      spyOn(instance, 'sendMessage');
+      instance.previous();
+      expect(instance.sendMessage).toHaveBeenCalledWith({
+        previous: ''
+      });
+    });
+  });
+
 })

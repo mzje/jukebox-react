@@ -12,7 +12,7 @@ class PlayerControls extends React.Component {
 
   previousButton() {
     return (
-      <button className="ui-player-controls__previous">
+      <button className="ui-player-controls__previous" onClick={this.previous}>
         <i className="fa fa-step-backward"></i>
         <span>Previous track</span>
       </button>
@@ -21,7 +21,7 @@ class PlayerControls extends React.Component {
 
   nextButton() {
     return (
-      <button className="ui-player-controls__next">
+      <button className="ui-player-controls__next" onClick={this.next}>
         <i className="fa fa-step-forward"></i>
         <span>Next track</span>
       </button>
@@ -47,11 +47,19 @@ class PlayerControls extends React.Component {
   }
 
   play = () => {
-    this.context.jukebox.play(this.props.userId);
+    this.context.jukebox.play();
   }
 
   pause = () => {
-    this.context.jukebox.pause(this.props.userId);
+    this.context.jukebox.pause();
+  }
+
+  next = () => {
+    this.context.jukebox.next();
+  }
+
+  previous = () => {
+    this.context.jukebox.previous();
   }
 
   playOrPauseButton(playState) {
