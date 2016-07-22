@@ -315,4 +315,15 @@ describe('Jukebox', () => {
     });
   });
 
-})
+  describe('bulkAdd', () => {
+    it('calls sendMessage with the bulkAdd payload', () => {
+      instance = new Jukebox();
+      spyOn(instance, 'sendMessage');
+      let tracks = ['foo', 'bar'];
+      instance.bulkAdd(tracks);
+      expect(instance.sendMessage).toHaveBeenCalledWith({
+        bulk_add_to_playlist: { filenames: [ 'foo', 'bar' ] }
+      });
+    });
+  });
+});
