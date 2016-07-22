@@ -33,6 +33,7 @@ body {
 .ui-playlist-table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
 }
 
 .ui-playlist-row:nth-child(even) {
@@ -51,7 +52,11 @@ body {
   overflow: hidden;
 }
 
-.ui-playlist-cell ui-playlist-cell__rating {
+.ui-playlist-cell__rating {
   width: 40px;
   font-weight: bold;
+}
+
+.ui-playlist-cell__added-by {
+  width: 40px;
 }
