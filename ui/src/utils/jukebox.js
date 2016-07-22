@@ -99,11 +99,12 @@ class Jukebox {
   }
 
   setVolume(value) {
-    const payload = this.buildMessage(
-      'setvol',
-      value
+    this.sendMessage(
+      this.buildMessage(
+        'setvol',
+        value
+      )
     );
-    this.sendMessage(payload);
   }
 
   next() {
@@ -120,6 +121,15 @@ class Jukebox {
 
   pause() {
     this.sendMessage(this.buildMessage('pause'));
+  }
+
+  bulkAdd(tracks) {
+    this.sendMessage(
+      this.buildMessage(
+        'bulk_add_to_playlist',
+        { filenames: tracks }
+      )
+    );
   }
 }
 
