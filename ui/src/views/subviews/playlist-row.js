@@ -40,7 +40,7 @@ class PlaylistRow extends React.Component {
 
   render() {
     return (
-      <tr className={this.classNames} key={this.props.track.current_song_position}>
+      <tr className={this.classNames} key={`track-${this.props.track.get('dbid')}`}>
         {this.rowHTML(this.props.track)}
       </tr>
     );

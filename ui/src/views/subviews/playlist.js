@@ -35,14 +35,14 @@ class Playlist extends React.Component {
 
   rowHTML = (currentTrack) => (track) => {
     let current = currentTrack.get('filename') === track.get('filename');
-    return <PlaylistRow track={track} current={current} />;
+    return <PlaylistRow track={track} current={current} key={`playlist-row-${track.get('dbid')}`} />;
   };
 
   playlistHTML(playlist, currentTrack) {
     let html;
     if (playlist) {
       html = (
-        <table className="ui-playlist-table">
+        <table className="ui-playlist-table" key="ui-playlist-table">
           <tbody>
             {this.rowsHTML(playlist, currentTrack)}
           </tbody>
