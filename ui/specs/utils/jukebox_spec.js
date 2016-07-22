@@ -326,4 +326,16 @@ describe('Jukebox', () => {
       });
     });
   });
+
+  describe('removePlaylistTrack', () => {
+    it('calls sendMessage with the deleteid payload', () => {
+      instance = new Jukebox();
+      spyOn(instance, 'sendMessage');
+      instance.removePlaylistTrack(1)
+      expect(instance.sendMessage).toHaveBeenCalledWith({
+        'deleteid': 1
+      });
+    });
+  })
+
 });

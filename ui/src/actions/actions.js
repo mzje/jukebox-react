@@ -69,6 +69,13 @@ const Actions = {
       actionType: Constants.UPDATE_PLAYLIST,
       playlist: playlist
     });
+  },
+
+  removePlaylistTrack: (track) => {
+    Dispatcher.dispatch({
+      actionType: Constants.REMOVE_PLAYLIST_TRACK,
+      track: track
+    });
   }
 };
 

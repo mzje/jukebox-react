@@ -73,6 +73,10 @@ class Store extends EventEmitter {
     this.data = this.data.set('playlist', action.playlist);
   }
 
+  [Constants.REMOVE_PLAYLIST_TRACK](action) {
+    this.data = this.data.deleteIn(['playlist', 'tracks', action.track.get('pos')]);
+  }
+
   dispatcherCallback(action) {
     if (this[action.actionType]) {
       this[action.actionType].call(this, action);

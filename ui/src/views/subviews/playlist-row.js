@@ -3,12 +3,23 @@ import React from 'react';
 class PlaylistRow extends React.Component {
   static propTypes = {
     track: React.PropTypes.object.isRequired,
-    current: React.PropTypes.bool.isRequired
+    current: React.PropTypes.bool.isRequired,
+    removePlaylistTrack: React.PropTypes.func.isRequired
   }
+
+  remove = (track) => () => this.props.removePlaylistTrack(track);
 
   rowHTML(track) {
     return (
       [
+        <td className="ui-playlist-cell ui-playlist-cell__action" key="action">
+          <button
+            className="ui-playlist-row__remove-button"
+            onClick={this.remove(this.props.track)}
+          >
+            Remove
+          </button>
+        </td>,
         <td className="ui-playlist-cell ui-playlist-cell__title" key="title">
           {track.get('title')}
         </td>,
